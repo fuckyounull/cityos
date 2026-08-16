@@ -1,0 +1,6256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>City OS</title>
+<link rel="icon" type="image/png" href="https://cdn.discordapp.com/icons/1394761199681409045/8f75284bf0dc3ad6fc6d41b675cd05f1.png?size=512">
+<link rel="apple-touch-icon" href="https://cdn.discordapp.com/icons/1394761199681409045/8f75284bf0dc3ad6fc6d41b675cd05f1.png?size=512">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --accent: #8ed8ff;
+    --accent-rgb: 142, 216, 255;
+
+    --bg-a: #06111a;
+    --bg-b: #15172a;
+    --bg-c: #091018;
+
+    --glass-alpha: .10;
+    --glass-blur: 30px;
+
+    --text: #ffffff;
+    --muted: rgba(255,255,255,.52);
+    --line: rgba(255,255,255,.13);
+
+    --mx: 50%;
+    --my: 50%;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        sans-serif;
+
+    color: var(--text);
+
+    background: #05080c;
+
+    -webkit-font-smoothing: antialiased;
+
+    user-select: none;
+}
+
+button,
+a,
+input {
+    font: inherit;
+}
+
+button {
+    color: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   WALLPAPER
+========================================================= */
+
+.wallpaper {
+    position: fixed;
+    inset: 0;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at var(--mx) var(--my),
+            rgba(var(--accent-rgb), .14),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 15% 12%,
+            rgba(75, 170, 255, .19),
+            transparent 36%
+        ),
+        radial-gradient(
+            circle at 88% 75%,
+            rgba(170, 110, 255, .18),
+            transparent 34%
+        ),
+        linear-gradient(
+            145deg,
+            var(--bg-a),
+            var(--bg-b) 50%,
+            var(--bg-c)
+        );
+
+    transition:
+        background 1s ease;
+}
+
+.liquid {
+    position: absolute;
+
+    width: 65vw;
+    height: 40vw;
+
+    min-width: 650px;
+    min-height: 380px;
+
+    border-radius: 50%;
+
+    filter: blur(65px);
+
+    opacity: .34;
+
+    mix-blend-mode: screen;
+
+    will-change: transform;
+}
+
+.liquid.one {
+    left: -18%;
+    top: -10%;
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(0,200,255,.43),
+            transparent 70%
+        );
+
+    animation:
+        liquidOne 19s ease-in-out infinite;
+}
+
+.liquid.two {
+    right: -20%;
+    top: 22%;
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(130,80,255,.40),
+            transparent 70%
+        );
+
+    animation:
+        liquidTwo 24s ease-in-out infinite;
+}
+
+.liquid.three {
+    left: 20%;
+    bottom: -27%;
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(0,220,190,.30),
+            transparent 70%
+        );
+
+    animation:
+        liquidThree 28s ease-in-out infinite;
+}
+
+@keyframes liquidOne {
+    0%,100% {
+        transform:
+            translate3d(0,0,0)
+            rotate(-7deg)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate3d(28%,13%,0)
+            rotate(10deg)
+            scale(1.18);
+    }
+}
+
+@keyframes liquidTwo {
+    0%,100% {
+        transform:
+            translate3d(0,0,0)
+            rotate(5deg)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate3d(-28%,-10%,0)
+            rotate(-11deg)
+            scale(1.16);
+    }
+}
+
+@keyframes liquidThree {
+    0%,100% {
+        transform:
+            translate3d(-5%,5%,0)
+            scale(.95);
+    }
+
+    50% {
+        transform:
+            translate3d(16%,-12%,0)
+            scale(1.23);
+    }
+}
+
+.wave-field {
+    position: absolute;
+
+    inset: -35%;
+
+    opacity: .10;
+
+    background:
+        repeating-radial-gradient(
+            ellipse at 50% 110%,
+            transparent 0,
+            transparent 23px,
+            rgba(255,255,255,.065) 24px,
+            transparent 28px
+        );
+
+    animation:
+        waveField 32s ease-in-out infinite;
+}
+
+@keyframes waveField {
+    0%,100% {
+        transform:
+            translate3d(-1%,0,0)
+            rotate(0deg)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate3d(2%,-2%,0)
+            rotate(2deg)
+            scale(1.06);
+    }
+}
+
+
+/* =========================================================
+   NOISE + VIGNETTE
+========================================================= */
+
+.noise {
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: .025;
+
+    z-index: 9000;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.vignette {
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 1;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 20%,
+            rgba(0,0,0,.45) 100%
+        );
+}
+
+
+/* =========================================================
+   OS LAYER
+========================================================= */
+
+.city-os {
+    position: relative;
+
+    z-index: 5;
+
+    width: 100%;
+    height: 100%;
+
+    padding:
+        16px 18px 14px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   GLASS BASE
+========================================================= */
+
+.glass {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,var(--glass-alpha)),
+            rgba(255,255,255,.025)
+        );
+
+    border:
+        1px solid var(--line);
+
+    backdrop-filter:
+        blur(var(--glass-blur))
+        saturate(160%);
+
+    -webkit-backdrop-filter:
+        blur(var(--glass-blur))
+        saturate(160%);
+
+    box-shadow:
+        0 25px 75px rgba(0,0,0,.30),
+        inset 0 1px 1px rgba(255,255,255,.14);
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+    position: relative;
+
+    z-index: 100;
+
+    height: 54px;
+
+    flex: none;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding:
+        0 16px;
+
+    border-radius: 21px;
+}
+
+.top-left,
+.top-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.logo {
+    width: 31px;
+    height: 31px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.25),
+            rgba(255,255,255,.07)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.17);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.25);
+}
+
+.brand-crown {
+    display: inline-block;
+    font-size: 20px;
+    line-height: 1;
+    transform: translateY(-1px);
+    text-shadow: 0 0 14px rgba(var(--accent-rgb), .38);
+}
+
+.brand {
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: -.3px;
+}
+
+.top-button {
+    min-width: 34px;
+    height: 34px;
+
+    padding:
+        0 10px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid rgba(255,255,255,.09);
+
+    border-radius: 12px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    color:
+        rgba(255,255,255,.60);
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        color .25s ease;
+}
+
+.top-button:hover {
+    color: white;
+
+    background:
+        rgba(255,255,255,.12);
+
+    transform:
+        translateY(-1px);
+}
+
+.time {
+    min-width: 75px;
+
+    text-align: right;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+.desktop {
+    position: relative;
+
+    flex: 1;
+
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   WELCOME
+========================================================= */
+
+.welcome {
+    position: absolute;
+
+    left: 4%;
+    top: 7%;
+
+    pointer-events: none;
+}
+
+.welcome h1 {
+    font-size:
+        clamp(2.8rem, 6vw, 5.7rem);
+
+    line-height: .92;
+
+    letter-spacing: -.075em;
+}
+
+.welcome p {
+    margin-top: 13px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   HOME WIDGETS
+========================================================= */
+
+.widget {
+    position: absolute;
+
+    padding: 16px;
+
+    border-radius: 23px;
+}
+
+.widget-title {
+    color:
+        rgba(255,255,255,.42);
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 9px;
+}
+
+.widget-server {
+    right: 4%;
+    top: 7%;
+
+    width: 205px;
+}
+
+.widget-server strong {
+    font-size: 23px;
+}
+
+.widget-server p {
+    margin-top: 6px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+.green-dot {
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+
+    margin-right: 5px;
+
+    border-radius: 50%;
+
+    background: #32d74b;
+
+    box-shadow:
+        0 0 9px rgba(50,215,75,.75);
+}
+
+.widget-project {
+    left: 4%;
+    bottom: 7%;
+
+    width: 240px;
+}
+
+.mini-project {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+}
+
+.mini-project img {
+    width: 43px;
+    height: 43px;
+
+    border-radius: 14px;
+
+    object-fit: cover;
+}
+
+.mini-project b {
+    font-size: 12px;
+}
+
+.mini-project p {
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   APP GRID
+========================================================= */
+
+.app-grid {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -43%);
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 88px);
+
+    gap:
+        24px 32px;
+}
+
+.desktop-app {
+    width: 88px;
+    height: 105px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 8px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: white;
+
+    cursor: pointer;
+
+    transition:
+        transform .32s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+.desktop-app:hover {
+    transform:
+        translateY(-7px)
+        scale(1.05);
+}
+
+.app-icon {
+    position: relative;
+
+    width: 72px;
+    height: 72px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.20),
+            rgba(255,255,255,.06)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+        0 14px 30px rgba(0,0,0,.25),
+        inset 0 1px 1px rgba(255,255,255,.22);
+
+    backdrop-filter:
+        blur(18px);
+
+    transition:
+        box-shadow .3s ease,
+        transform .3s ease;
+}
+
+.desktop-app:hover .app-icon {
+    box-shadow:
+        0 20px 42px rgba(0,0,0,.36),
+        0 0 30px rgba(var(--accent-rgb),.10),
+        inset 0 1px rgba(255,255,255,.35);
+}
+
+.app-icon img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.app-icon svg {
+    width: 30px;
+    height: 30px;
+
+    fill:
+        rgba(255,255,255,.86);
+}
+
+.app-emoji {
+    font-size: 28px;
+}
+
+.app-label {
+    font-size: 10px;
+
+    color:
+        rgba(255,255,255,.84);
+}
+
+
+/* =========================================================
+   DOCK
+========================================================= */
+
+.dock {
+    position: relative;
+
+    z-index: 500;
+
+    align-self: center;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    min-height: 54px;
+
+    padding:
+        6px 8px;
+
+    border-radius: 19px;
+}
+
+.dock-icon {
+    position: relative;
+
+    width: 40px;
+    height: 40px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 12px;
+
+    border:
+        1px solid rgba(255,255,255,.10);
+
+    background:
+        rgba(255,255,255,.055);
+
+    color:
+        rgba(255,255,255,.70);
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        background .25s ease;
+}
+
+.dock-icon:hover {
+    transform:
+        translateY(-5px)
+        scale(1.05);
+
+    background:
+        rgba(255,255,255,.13);
+}
+
+.dock-indicator {
+    position: absolute;
+
+    bottom: -5px;
+
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    opacity: 0;
+
+    transition:
+        opacity .2s ease;
+}
+
+.dock-icon.running .dock-indicator {
+    opacity: .85;
+}
+
+.dock-icon.minimized {
+    opacity: .60;
+}
+
+
+/* =========================================================
+   WINDOWS
+========================================================= */
+
+.window {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width:
+        min(760px, calc(100vw - 45px));
+
+    height:
+        min(590px, calc(100% - 14px));
+
+    border-radius: 28px;
+
+    overflow: hidden;
+
+    display: none;
+
+    transform:
+        translate(-50%, -50%)
+        scale(.92);
+
+    opacity: 0;
+
+    transition:
+        opacity .32s ease,
+        transform .38s
+        cubic-bezier(.2,.8,.2,1),
+        width .35s ease,
+        height .35s ease,
+        left .35s ease,
+        top .35s ease;
+
+    z-index: 200;
+}
+
+.window.open {
+    display: block;
+
+    animation:
+        windowOpen .36s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+}
+
+.window.closing {
+    animation:
+        windowClose .25s ease forwards;
+}
+
+.window.minimized {
+    display: none;
+}
+
+.window.maximized {
+    left: 0 !important;
+    top: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    border-radius: 22px;
+
+    transform: none !important;
+}
+
+@keyframes windowOpen {
+    from {
+        opacity: 0;
+
+        transform:
+            translate(-50%,-47%)
+            scale(.92);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+    }
+}
+
+@keyframes windowClose {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+
+        transform:
+            translate(-50%,-45%)
+            scale(.92);
+    }
+}
+
+.window-head {
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding:
+        0 17px;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.035);
+
+    cursor: grab;
+}
+
+.window-head:active {
+    cursor: grabbing;
+}
+
+.window-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.window-badge {
+    width: 31px;
+    height: 31px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+}
+
+.window-title-text b {
+    display: block;
+
+    font-size: 12px;
+}
+
+.window-title-text small {
+    display: block;
+
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 7px;
+}
+
+.window-controls {
+    display: flex;
+
+    gap: 6px;
+}
+
+.window-control {
+    width: 30px;
+    height: 30px;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.07);
+
+    color:
+        rgba(255,255,255,.60);
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.window-control:hover {
+    color: white;
+
+    background:
+        rgba(255,255,255,.14);
+}
+
+.window-control.close:hover {
+    background:
+        rgba(255,75,90,.30);
+}
+
+.window-body {
+    height:
+        calc(100% - 58px);
+
+    overflow-y: auto;
+
+    padding: 23px;
+}
+
+.window-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+.window-body::-webkit-scrollbar-thumb {
+    background:
+        rgba(255,255,255,.12);
+
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   APP CONTENT
+========================================================= */
+
+.app-hero {
+    margin-bottom: 22px;
+}
+
+.app-hero h2 {
+    font-size: 30px;
+
+    letter-spacing: -1.4px;
+}
+
+.app-hero p {
+    max-width: 580px;
+
+    margin-top: 8px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(190px,1fr));
+
+    gap: 12px;
+}
+
+.card {
+    padding: 15px;
+
+    border-radius: 19px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        border-color .25s ease;
+}
+
+.card:hover {
+    transform:
+        translateY(-3px);
+
+    background:
+        rgba(255,255,255,.095);
+
+    border-color:
+        rgba(255,255,255,.13);
+}
+
+.card-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.card-header img {
+    width: 46px;
+    height: 46px;
+
+    border-radius: 14px;
+
+    object-fit: cover;
+}
+
+.card h3 {
+    font-size: 13px;
+}
+
+.card p {
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+.action {
+    display: inline-flex;
+
+    margin-top: 13px;
+
+    padding:
+        8px 11px;
+
+    border-radius: 11px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    font-size: 9px;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+.action:hover {
+    background:
+        rgba(255,255,255,.15);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   FRIENDS
+========================================================= */
+
+.friend-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap: 11px;
+}
+
+.friend {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 13px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+}
+
+.friend-avatar-wrap {
+    position: relative;
+}
+
+.friend img {
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+.friend-online {
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+
+    width: 11px;
+    height: 11px;
+
+    border-radius: 50%;
+
+    background: #32d74b;
+
+    border:
+        2px solid #151923;
+}
+
+.friend b {
+    font-size: 12px;
+}
+
+.friend small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   PAYMENT / SOCIAL ROWS
+========================================================= */
+
+.link-list {
+    display: grid;
+
+    gap: 9px;
+}
+
+.link-row {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 13px;
+
+    border-radius: 17px;
+
+    background:
+        rgba(255,255,255,.05);
+
+    border:
+        1px solid rgba(255,255,255,.075);
+
+    transition:
+        transform .25s ease,
+        background .25s ease;
+}
+
+.link-row:hover {
+    transform:
+        translateX(4px);
+
+    background:
+        rgba(255,255,255,.09);
+}
+
+.link-left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+}
+
+.link-symbol {
+    width: 40px;
+    height: 40px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    font-size: 14px;
+}
+
+.link-row b {
+    display: block;
+
+    font-size: 11px;
+}
+
+.link-row small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   STATUS APP
+========================================================= */
+
+.status-overview {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 11px;
+    margin-bottom: 16px;
+}
+
+.status-stat {
+    padding: 14px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.055);
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.status-stat small {
+    display: block;
+    color: var(--muted);
+    font-size: 8px;
+    margin-bottom: 7px;
+}
+
+.status-stat strong {
+    font-size: 18px;
+    letter-spacing: -.6px;
+}
+
+.service-list {
+    display: grid;
+    gap: 11px;
+}
+
+.service-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 16px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.055);
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.service-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.service-icon {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    border-radius: 15px;
+    background: rgba(255,255,255,.075);
+    border: 1px solid rgba(255,255,255,.09);
+    font-size: 17px;
+}
+
+.service-copy b {
+    display: block;
+    font-size: 13px;
+}
+
+.service-copy p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.45;
+}
+
+.service-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    flex: none;
+    padding: 8px 10px;
+    border-radius: 999px;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .35px;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+}
+
+.service-pill::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.service-pill.online {
+    color: #b9ffc5;
+    background: rgba(50,215,75,.12);
+    border-color: rgba(50,215,75,.22);
+}
+
+.service-pill.online::before {
+    background: #32d74b;
+    box-shadow: 0 0 10px rgba(50,215,75,.7);
+}
+
+.service-pill.offline {
+    color: #ffc1c8;
+    background: rgba(255,69,88,.12);
+    border-color: rgba(255,69,88,.22);
+}
+
+.service-pill.offline::before {
+    background: #ff4558;
+    box-shadow: 0 0 10px rgba(255,69,88,.55);
+}
+
+.status-note {
+    margin-top: 13px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    color: var(--muted);
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.06);
+    font-size: 8px;
+    line-height: 1.55;
+}
+
+@media (max-width: 760px) {
+    .status-overview { grid-template-columns: 1fr; }
+    .service-card { align-items: flex-start; flex-direction: column; }
+}
+
+
+/* =========================================================
+   CYBERWATCH / BREACH TRACKER
+========================================================= */
+
+.cyber-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.cyber-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.055);
+    border: 1px solid rgba(255,255,255,.08);
+    color: var(--muted);
+    font-size: 8px;
+}
+
+.cyber-pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff453a;
+    box-shadow: 0 0 10px rgba(255,69,58,.75);
+}
+
+.cyber-filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.cyber-filter {
+    border: 1px solid rgba(255,255,255,.09);
+    background: rgba(255,255,255,.05);
+    color: rgba(255,255,255,.68);
+    border-radius: 10px;
+    padding: 7px 10px;
+    font-size: 8px;
+    cursor: pointer;
+}
+
+.cyber-filter.active {
+    background: rgba(var(--accent-rgb), .18);
+    border-color: rgba(var(--accent-rgb), .28);
+    color: white;
+}
+
+.cyber-feed {
+    display: grid;
+    gap: 10px;
+}
+
+.cyber-item {
+    padding: 15px;
+    border-radius: 19px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.075);
+    transition: transform .22s ease, background .22s ease, border-color .22s ease;
+}
+
+.cyber-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,.08);
+    border-color: rgba(255,255,255,.12);
+}
+
+.cyber-item-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.cyber-entity {
+    display: flex;
+    gap: 11px;
+    align-items: center;
+    min-width: 0;
+}
+
+.cyber-icon {
+    width: 42px;
+    height: 42px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: rgba(255,255,255,.075);
+    border: 1px solid rgba(255,255,255,.08);
+    font-size: 17px;
+}
+
+.cyber-entity b {
+    display: block;
+    font-size: 12px;
+}
+
+.cyber-entity small {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 8px;
+}
+
+.cyber-severity {
+    flex: none;
+    padding: 6px 8px;
+    border-radius: 9px;
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,.10);
+}
+
+.cyber-severity.critical {
+    background: rgba(255,69,58,.15);
+    color: #ff9a94;
+    border-color: rgba(255,69,58,.25);
+}
+
+.cyber-severity.high {
+    background: rgba(255,159,10,.14);
+    color: #ffd09a;
+    border-color: rgba(255,159,10,.24);
+}
+
+.cyber-summary {
+    margin-top: 12px;
+    color: rgba(255,255,255,.72);
+    font-size: 9px;
+    line-height: 1.65;
+}
+
+.cyber-meta {
+    margin-top: 11px;
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.cyber-chip {
+    padding: 5px 7px;
+    border-radius: 8px;
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.06);
+    color: var(--muted);
+    font-size: 7px;
+}
+
+.cyber-source {
+    display: inline-flex;
+    margin-top: 11px;
+    font-size: 8px;
+    color: rgba(255,255,255,.82);
+}
+
+.cyber-note {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 15px;
+    background: rgba(var(--accent-rgb), .07);
+    border: 1px solid rgba(var(--accent-rgb), .12);
+    color: var(--muted);
+    font-size: 8px;
+    line-height: 1.55;
+}
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+.setting {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding:
+        14px 0;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.07);
+}
+
+.setting b {
+    font-size: 11px;
+}
+
+.setting small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+}
+
+.switch {
+    width: 43px;
+    height: 25px;
+
+    padding: 3px;
+
+    border: 0;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    cursor: pointer;
+
+    transition:
+        background .25s ease;
+}
+
+.switch span {
+    display: block;
+
+    width: 19px;
+    height: 19px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    transition:
+        transform .25s ease;
+}
+
+.switch.on {
+    background:
+        var(--accent);
+}
+
+.switch.on span {
+    transform:
+        translateX(18px);
+}
+
+.color-row {
+    display: flex;
+
+    gap: 7px;
+}
+
+.color-chip {
+    width: 25px;
+    height: 25px;
+
+    border-radius: 50%;
+
+    border:
+        2px solid rgba(255,255,255,.20);
+
+    cursor: pointer;
+}
+
+
+
+/* =========================================================
+   UPDATES / COMMUNITY BOARD
+========================================================= */
+
+.update-composer {
+    padding: 16px;
+    margin-bottom: 14px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.055);
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.update-composer textarea {
+    width: 100%;
+    min-height: 92px;
+    resize: vertical;
+    border: 0;
+    outline: 0;
+    border-radius: 15px;
+    padding: 13px 14px;
+    background: rgba(0,0,0,.18);
+    color: white;
+    border: 1px solid rgba(255,255,255,.08);
+    font: inherit;
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+.update-composer textarea::placeholder {
+    color: rgba(255,255,255,.35);
+}
+
+.update-composer-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.update-composer-hint {
+    color: var(--muted);
+    font-size: 8px;
+}
+
+.update-feed {
+    display: grid;
+    gap: 10px;
+}
+
+.update-post {
+    padding: 15px;
+    border-radius: 19px;
+    background: rgba(255,255,255,.055);
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.update-post-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.update-author {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.update-avatar {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: rgba(var(--accent-rgb), .15);
+    border: 1px solid rgba(var(--accent-rgb), .20);
+    font-size: 15px;
+}
+
+.update-author b {
+    display: block;
+    font-size: 10px;
+}
+
+.update-author small,
+.update-time {
+    color: var(--muted);
+    font-size: 7px;
+}
+
+.update-post p {
+    color: rgba(255,255,255,.82);
+    font-size: 11px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    user-select: text;
+}
+
+.update-badge {
+    display: inline-flex;
+    margin-top: 11px;
+    padding: 5px 8px;
+    border-radius: 9px;
+    background: rgba(var(--accent-rgb), .13);
+    border: 1px solid rgba(var(--accent-rgb), .18);
+    color: rgba(255,255,255,.78);
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+    .update-composer-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .update-composer-actions .action {
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   WALLPAPER PICKER
+========================================================= */
+
+.wallpaper-settings {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,.07);
+}
+
+.wallpaper-settings-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.wallpaper-settings-head h3 {
+    font-size: 17px;
+    letter-spacing: -.45px;
+}
+
+.wallpaper-settings-head p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.55;
+}
+
+.wallpaper-current {
+    flex: none;
+    padding: 7px 10px;
+    border-radius: 10px;
+    background: rgba(var(--accent-rgb), .10);
+    border: 1px solid rgba(var(--accent-rgb), .18);
+    color: rgba(255,255,255,.84);
+    font-size: 8px;
+    font-weight: 700;
+}
+
+.wallpaper-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.wallpaper-option {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 19px;
+    background: rgba(255,255,255,.04);
+    color: white;
+    cursor: pointer;
+    text-align: left;
+    transition: transform .24s ease, background .24s ease, border-color .24s ease, box-shadow .24s ease;
+}
+
+.wallpaper-option:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,.07);
+    border-color: rgba(255,255,255,.15);
+}
+
+.wallpaper-option.selected {
+    border-color: rgba(var(--accent-rgb), .48);
+    background: rgba(var(--accent-rgb), .075);
+    box-shadow: 0 0 0 1px rgba(var(--accent-rgb), .10);
+}
+
+.wallpaper-preview {
+    position: relative;
+    height: 118px;
+    overflow: hidden;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.09);
+    background: linear-gradient(145deg, var(--wa), var(--wb) 50%, var(--wc));
+}
+
+.wallpaper-preview::before,
+.wallpaper-preview::after {
+    content: "";
+    position: absolute;
+    width: 80%;
+    height: 90%;
+    border-radius: 50%;
+    filter: blur(24px);
+    opacity: .58;
+}
+
+.wallpaper-preview::before {
+    left: -22%;
+    top: -35%;
+    background: radial-gradient(ellipse, var(--glow-a), transparent 68%);
+}
+
+.wallpaper-preview::after {
+    right: -25%;
+    bottom: -42%;
+    background: radial-gradient(ellipse, var(--glow-b), transparent 68%);
+}
+
+.wallpaper-preview-ui {
+    position: absolute;
+    inset: 10px;
+    z-index: 2;
+    display: grid;
+    grid-template-rows: 16px 1fr 14px;
+    gap: 7px;
+}
+
+.wallpaper-preview-bar,
+.wallpaper-preview-dock {
+    border-radius: 7px;
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.09);
+    backdrop-filter: blur(7px);
+}
+
+.wallpaper-preview-center {
+    width: 45%;
+    height: 34px;
+    align-self: center;
+    justify-self: center;
+    border-radius: 10px;
+    background: rgba(255,255,255,.075);
+    border: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(7px);
+}
+
+.wallpaper-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 9px 4px 2px;
+}
+
+.wallpaper-meta b {
+    font-size: 10px;
+}
+
+.wallpaper-meta small {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 7px;
+}
+
+.wallpaper-check {
+    width: 19px;
+    height: 19px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.06);
+    color: transparent;
+    font-size: 9px;
+}
+
+.wallpaper-option.selected .wallpaper-check {
+    background: var(--accent);
+    color: #071018;
+    border-color: transparent;
+}
+
+@media (max-width: 600px) {
+    .wallpaper-grid { grid-template-columns: 1fr; }
+    .wallpaper-preview { height: 104px; }
+    .wallpaper-settings-head { align-items: flex-start; }
+}
+
+
+
+/* =========================================================
+   SPOTLIGHT
+========================================================= */
+
+.overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 5000;
+
+    display: none;
+
+    align-items: flex-start;
+    justify-content: center;
+
+    padding-top: 12vh;
+
+    background:
+        rgba(0,0,0,.32);
+
+    backdrop-filter:
+        blur(22px);
+
+    -webkit-backdrop-filter:
+        blur(22px);
+}
+
+.overlay.show {
+    display: flex;
+}
+
+.spotlight {
+    width:
+        min(650px, calc(100% - 28px));
+
+    border-radius: 25px;
+
+    padding: 15px;
+
+    background:
+        rgba(17,22,30,.72);
+
+    border:
+        1px solid rgba(255,255,255,.14);
+
+    backdrop-filter:
+        blur(35px);
+
+    box-shadow:
+        0 35px 100px rgba(0,0,0,.55);
+}
+
+.spotlight input {
+    width: 100%;
+
+    border: 0;
+    outline: 0;
+
+    padding: 10px;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 20px;
+}
+
+.results {
+    margin-top: 8px;
+
+    display: grid;
+
+    gap: 6px;
+}
+
+.result {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 11px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    cursor: pointer;
+}
+
+.result:hover {
+    background:
+        rgba(255,255,255,.11);
+}
+
+
+/* =========================================================
+   CONTROL CENTER
+========================================================= */
+
+.control-center {
+    position: fixed;
+
+    right: 18px;
+    top: 80px;
+
+    z-index: 4500;
+
+    width: 290px;
+
+    padding: 14px;
+
+    border-radius: 24px;
+
+    opacity: 0;
+
+    transform:
+        translateY(-10px)
+        scale(.96);
+
+    pointer-events: none;
+
+    transition:
+        .30s cubic-bezier(.2,.8,.2,1);
+}
+
+.control-center.open {
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+.control-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 9px;
+}
+
+.control-tile {
+    min-height: 75px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    padding: 12px;
+
+    border-radius: 17px;
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.06);
+
+    cursor: pointer;
+}
+
+.control-tile.active {
+    background:
+        rgba(var(--accent-rgb), .19);
+
+    border-color:
+        rgba(var(--accent-rgb), .28);
+}
+
+.control-tile b {
+    font-size: 10px;
+}
+
+.control-tile small {
+    color: var(--muted);
+
+    font-size: 7px;
+}
+
+.slider-wrap {
+    margin-top: 10px;
+
+    padding: 10px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255,255,255,.055);
+}
+
+.slider-wrap label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+}
+
+.slider-wrap input {
+    width: 100%;
+}
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+.notifications {
+    position: fixed;
+
+    right: 18px;
+    top: 80px;
+
+    z-index: 4400;
+
+    width: 310px;
+
+    padding: 14px;
+
+    border-radius: 24px;
+
+    opacity: 0;
+
+    transform:
+        translateY(-10px)
+        scale(.96);
+
+    pointer-events: none;
+
+    transition:
+        .30s cubic-bezier(.2,.8,.2,1);
+}
+
+.notifications.open {
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+.notification {
+    padding: 12px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    border:
+        1px solid rgba(255,255,255,.07);
+}
+
+.notification + .notification {
+    margin-top: 8px;
+}
+
+.notification b {
+    font-size: 10px;
+}
+
+.notification p {
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+    position: fixed;
+
+    left: 50%;
+    bottom: 90px;
+
+    z-index: 8000;
+
+    padding:
+        11px 17px;
+
+    border-radius: 13px;
+
+    background:
+        rgba(245,247,249,.92);
+
+    color: #090b0d;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    opacity: 0;
+
+    transform:
+        translate(-50%, 15px);
+
+    transition:
+        opacity .3s ease,
+        transform .35s ease;
+
+    pointer-events: none;
+}
+
+.toast.show {
+    opacity: 1;
+
+    transform:
+        translate(-50%, 0);
+}
+
+
+
+
+/* =========================================================
+   CYBERWATCH MAP + 3RD EYE
+========================================================= */
+
+.cyber-map-shell {
+    margin: 14px 0 16px;
+    overflow: hidden;
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(5,10,16,.72);
+}
+
+.cyber-map-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 13px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.cyber-map-head b { font-size: 10px; }
+.cyber-map-head small { color: var(--muted); font-size: 8px; }
+
+.cyber-map {
+    width: 100%;
+    height: 300px;
+    background: #081019;
+}
+
+.cyber-map-fallback {
+    height: 100%;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 24px;
+    text-align: center;
+    background:
+        radial-gradient(circle at 50% 45%, rgba(var(--accent-rgb), .12), transparent 34%),
+        #081019;
+}
+
+.cyber-map-fallback b { font-size: 12px; }
+.cyber-map-fallback span { max-width: 330px; color: var(--muted); font-size: 9px; line-height: 1.55; }
+
+.cyber-map .leaflet-tile-pane { filter: saturate(.45) brightness(.58) contrast(1.08); }
+.cyber-map .leaflet-control-zoom a {
+    background: rgba(10,15,22,.86);
+    color: white;
+    border-color: rgba(255,255,255,.10);
+}
+.cyber-map .leaflet-control-attribution {
+    background: rgba(4,8,12,.72);
+    color: rgba(255,255,255,.50);
+    font-size: 7px;
+}
+.cyber-map .leaflet-control-attribution a { color: rgba(255,255,255,.72); }
+
+.breach-marker {
+    width: 18px !important;
+    height: 18px !important;
+    margin-left: -9px !important;
+    margin-top: -9px !important;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: #ff4d68;
+    box-shadow: 0 0 0 6px rgba(255,77,104,.13), 0 0 20px rgba(255,77,104,.45);
+}
+.breach-marker.high { background: #ff9f43; box-shadow: 0 0 0 6px rgba(255,159,67,.12), 0 0 18px rgba(255,159,67,.40); }
+.breach-marker.critical { background: #ff3b5c; }
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background: #101722;
+    color: white;
+}
+.leaflet-popup-content {
+    margin: 11px 13px;
+    font-family: Inter, sans-serif;
+    font-size: 10px;
+    line-height: 1.45;
+}
+.leaflet-popup-content b { display:block; margin-bottom:4px; }
+.leaflet-popup-content span { color: rgba(255,255,255,.60); font-size:8px; }
+
+.cyber-local-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.075);
+}
+.cyber-local-copy { min-width: 0; }
+.cyber-local-copy b { display:block; font-size:10px; }
+.cyber-local-copy small { display:block; margin-top:3px; color:var(--muted); font-size:8px; line-height:1.45; }
+.cyber-local-btn {
+    flex:none;
+    border:1px solid rgba(var(--accent-rgb),.24);
+    border-radius:12px;
+    padding:8px 10px;
+    background:rgba(var(--accent-rgb),.12);
+    color:white;
+    font-size:8px;
+    font-weight:700;
+    cursor:pointer;
+}
+.cyber-local-btn:hover { background:rgba(var(--accent-rgb),.20); }
+.cyber-distance {
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    margin-left:6px;
+    padding:3px 7px;
+    border-radius:999px;
+    background:rgba(var(--accent-rgb),.10);
+    border:1px solid rgba(var(--accent-rgb),.16);
+    color:rgba(255,255,255,.75);
+    font-size:7px;
+}
+.cyber-user-marker {
+    width:18px !important;
+    height:18px !important;
+    margin-left:-9px !important;
+    margin-top:-9px !important;
+    border-radius:50%;
+    border:3px solid white;
+    background:var(--accent);
+    box-shadow:0 0 0 7px rgba(var(--accent-rgb),.14), 0 0 24px rgba(var(--accent-rgb),.55);
+}
+@media (max-width:760px) {
+    .cyber-local-row { align-items:flex-start; flex-direction:column; }
+    .cyber-local-btn { width:100%; }
+}
+
+.third-eye-wrap { display: grid; gap: 14px; }
+.third-eye-hero {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 18px;
+    align-items: center;
+    padding: 18px;
+    border-radius: 22px;
+    background: radial-gradient(circle at 22% 50%, rgba(var(--accent-rgb),.14), transparent 34%), rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.08);
+}
+.third-eye-radar {
+    position: relative;
+    width: 150px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid rgba(var(--accent-rgb),.30);
+    background:
+        radial-gradient(circle, transparent 19%, rgba(var(--accent-rgb),.13) 20%, transparent 21%, transparent 39%, rgba(var(--accent-rgb),.11) 40%, transparent 41%, transparent 59%, rgba(var(--accent-rgb),.09) 60%, transparent 61%),
+        linear-gradient(90deg, transparent 49.5%, rgba(var(--accent-rgb),.15) 50%, transparent 50.5%),
+        linear-gradient(transparent 49.5%, rgba(var(--accent-rgb),.15) 50%, transparent 50.5%),
+        rgba(4,10,14,.65);
+}
+.third-eye-radar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(from 0deg, transparent 0 300deg, rgba(var(--accent-rgb),.04) 315deg, rgba(var(--accent-rgb),.38) 360deg);
+    animation: thirdEyeSweep 4.5s linear infinite;
+}
+.third-eye-radar::after {
+    content: "◉";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(255,255,255,.88);
+    font-size: 28px;
+    text-shadow: 0 0 18px rgba(var(--accent-rgb),.55);
+}
+@keyframes thirdEyeSweep { to { transform: rotate(360deg); } }
+
+.third-eye-copy h3 { font-size: 20px; letter-spacing: -.7px; }
+.third-eye-copy p { margin-top: 7px; color: var(--muted); font-size: 10px; line-height: 1.7; }
+.third-eye-status { display:flex; gap:7px; flex-wrap:wrap; margin-top:11px; }
+.third-eye-pill {
+    padding: 6px 8px;
+    border-radius: 999px;
+    background: rgba(var(--accent-rgb),.09);
+    border: 1px solid rgba(var(--accent-rgb),.16);
+    font-size: 8px;
+}
+.third-eye-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 10px;
+}
+.third-eye-card {
+    padding: 14px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.075);
+}
+.third-eye-card-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.third-eye-card b { font-size: 11px; }
+.third-eye-card p { margin-top:7px; color:var(--muted); font-size:9px; line-height:1.6; }
+.third-eye-level { font-size:7px; padding:4px 7px; border-radius:999px; background:rgba(255,255,255,.07); }
+.third-eye-note { color: var(--muted); font-size: 8px; line-height: 1.6; padding: 0 2px; }
+
+@media (max-width: 620px) {
+    .cyber-map { height: 250px; }
+    .third-eye-hero { grid-template-columns: 1fr; }
+    .third-eye-radar { width: 126px; justify-self:center; }
+    .third-eye-grid { grid-template-columns: 1fr; }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+
+    .city-os {
+        padding: 8px;
+    }
+
+    .topbar {
+        border-radius: 17px;
+    }
+
+    .brand {
+        font-size: 11px;
+    }
+
+    .welcome {
+        top: 4%;
+        left: 5%;
+    }
+
+    .welcome h1 {
+        font-size: 42px;
+    }
+
+    .widget {
+        display: none;
+    }
+
+    .app-grid {
+        grid-template-columns:
+            repeat(4, 68px);
+
+        gap:
+            18px 12px;
+    }
+
+    .desktop-app {
+        width: 68px;
+    }
+
+    .app-icon {
+        width: 59px;
+        height: 59px;
+
+        border-radius: 18px;
+    }
+
+    .app-label {
+        font-size: 8px;
+    }
+
+    .dock {
+        width: calc(100% - 10px);
+
+        justify-content: center;
+
+        overflow-x: auto;
+    }
+
+    .dock-icon {
+        width: 38px;
+        height: 38px;
+
+        flex: none;
+    }
+
+    .window {
+        width: 100%;
+        height: 100%;
+
+        border-radius: 18px;
+
+        left: 0 !important;
+        top: 0 !important;
+
+        transform: none !important;
+    }
+
+    .window.open {
+        animation:
+            mobileWindow .34s
+            cubic-bezier(.2,.8,.2,1)
+            forwards;
+    }
+
+    @keyframes mobileWindow {
+        from {
+            opacity: 0;
+            transform:
+                translateY(20px)
+                scale(.97);
+        }
+
+        to {
+            opacity: 1;
+            transform:
+                translateY(0)
+                scale(1);
+        }
+    }
+
+    .friend-list {
+        grid-template-columns: 1fr;
+    }
+
+    .control-center,
+    .notifications {
+        right: 8px;
+
+        width:
+            calc(100% - 16px);
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            .01ms !important;
+    }
+}
+</style>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+</head>
+
+
+<body>
+
+<div class="wallpaper">
+
+    <div class="liquid one"></div>
+    <div class="liquid two"></div>
+    <div class="liquid three"></div>
+
+    <div class="wave-field"></div>
+
+</div>
+
+<div class="vignette"></div>
+<div class="noise"></div>
+
+
+<div class="city-os">
+
+
+    <!-- =====================================================
+         TOP BAR
+    ====================================================== -->
+
+    <header class="topbar glass">
+
+        <div class="top-left">
+
+            <div class="logo" aria-label="City OS Crown" title="City OS">
+                <span class="brand-crown">♛</span>
+            </div>
+
+            <span class="brand">
+                City OS
+            </span>
+
+        </div>
+
+
+        <div class="top-right">
+
+            <button
+                class="top-button"
+                onclick="openSpotlight()"
+                title="Search"
+            >
+                ⌕
+            </button>
+
+
+            <button
+                class="top-button"
+                onclick="toggleNotifications()"
+                title="Notifications"
+            >
+                ◌
+            </button>
+
+
+            <button
+                class="top-button"
+                onclick="toggleControlCenter()"
+                title="Control Center"
+            >
+                ⧉
+            </button>
+
+
+            <div
+                class="time"
+                id="topClock"
+            >
+                --:--
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         DESKTOP
+    ====================================================== -->
+
+    <main class="desktop" id="desktop">
+
+
+        <!-- Welcome -->
+
+        <div class="welcome">
+
+            <h1 id="welcomeGreeting">
+                Good evening,<br>
+                ...
+            </h1>
+
+            <p id="dateText">
+                Loading...
+            </p>
+
+        </div>
+
+
+
+        <!-- Server widget -->
+
+        <div class="widget widget-server glass">
+
+            <div class="widget-title">
+                Sin City
+            </div>
+
+            <strong>
+                <span class="green-dot"></span>
+                Online
+            </strong>
+
+            <p>
+                Community and projects connected.
+            </p>
+
+        </div>
+
+
+
+        <!-- Project widget -->
+
+        <button
+            class="widget widget-project glass"
+            onclick="launchApp('projects')"
+        >
+
+            <div class="widget-title">
+                Featured Project
+            </div>
+
+            <div class="mini-project">
+
+                <img
+                    src="https://cdn.discordapp.com/icons/1394761199681409045/8f75284bf0dc3ad6fc6d41b675cd05f1.png?size=512"
+                    alt="City"
+                >
+
+                <div>
+
+                    <b>
+                        City Tweaks
+                    </b>
+
+                    <p>
+                        Open project →
+                    </p>
+
+                </div>
+
+            </div>
+
+        </button>
+
+
+
+        <!-- =================================================
+             APPS
+        ================================================== -->
+
+        <section class="app-grid">
+
+
+            <button
+                class="desktop-app"
+                data-app="sincity"
+                onclick="launchApp('sincity')"
+            >
+
+                <div class="app-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M10 13a5 5 0 0 0 7.07.07l2-2a5 5 0 0 0-7.07-7.07l-1.15 1.15M14 11a5 5 0 0 0-7.07-.07l-2 2A5 5 0 0 0 7 20l1.15-1.15"/>
+
+                    </svg>
+
+                </div>
+
+                <span class="app-label">
+                    Sin City
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="desktop-app"
+                data-app="projects"
+                onclick="launchApp('projects')"
+            >
+
+                <div class="app-icon">
+
+                    <span class="app-emoji">
+                        ▦
+                    </span>
+
+                </div>
+
+                <span class="app-label">
+                    Projects
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="desktop-app"
+                data-app="friends"
+                onclick="launchApp('friends')"
+            >
+
+                <div class="app-icon">
+
+                    <span class="app-emoji">
+                        👥
+                    </span>
+
+                </div>
+
+                <span class="app-label">
+                    Friends
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="desktop-app"
+                data-app="socials"
+                onclick="launchApp('socials')"
+            >
+
+                <div class="app-icon">
+
+                    <span class="app-emoji">
+                        ♪
+                    </span>
+
+                </div>
+
+                <span class="app-label">
+                    Socials
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="desktop-app"
+                data-app="payments"
+                onclick="launchApp('payments')"
+            >
+
+                <div class="app-icon">
+
+                    <span class="app-emoji">
+                        💳
+                    </span>
+
+                </div>
+
+                <span class="app-label">
+                    Payments
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="desktop-app"
+                data-app="about"
+                onclick="launchApp('about')"
+            >
+
+                <div class="app-icon">
+
+                    <span class="app-emoji">
+                        ◉
+                    </span>
+
+                </div>
+
+                <span class="app-label">
+                    About
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="desktop-app"
+                data-app="settings"
+                onclick="launchApp('settings')"
+            >
+
+                <div class="app-icon">
+
+                    <span class="app-emoji">
+                        ⚙
+                    </span>
+
+                </div>
+
+                <span class="app-label">
+                    Settings
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="desktop-app"
+                data-app="cyberwatch"
+                onclick="launchApp('cyberwatch')"
+            >
+
+                <div class="app-icon">
+
+                    <span class="app-emoji">
+                        ⛨
+                    </span>
+
+                </div>
+
+                <span class="app-label">
+                    CyberWatch
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="desktop-app"
+                data-app="thirdeye"
+                onclick="launchApp('thirdeye')"
+            >
+
+                <div class="app-icon">
+                    <span class="app-emoji">◉</span>
+                </div>
+
+                <span class="app-label">
+                    3rd Eye
+                </span>
+
+            </button>
+
+
+            <button
+                class="desktop-app"
+                data-app="status"
+                onclick="launchApp('status')"
+            >
+
+                <div class="app-icon">
+                    <span class="app-emoji">●</span>
+                </div>
+
+                <span class="app-label">
+                    Status
+                </span>
+
+            </button>
+
+
+            <button
+                class="desktop-app"
+                data-app="updates"
+                onclick="launchApp('updates')"
+            >
+
+                <div class="app-icon">
+
+                    <span class="app-emoji">
+                        ✦
+                    </span>
+
+                </div>
+
+                <span class="app-label">
+                    Updates
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="desktop-app"
+                onclick="openSpotlight()"
+            >
+
+                <div class="app-icon">
+
+                    <span class="app-emoji">
+                        ⌕
+                    </span>
+
+                </div>
+
+                <span class="app-label">
+                    Search
+                </span>
+
+            </button>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         DOCK
+    ====================================================== -->
+
+    <nav class="dock glass" id="dock">
+
+        <button class="dock-icon" data-dock="sincity" onclick="dockLaunch('sincity')" title="Sin City">
+            ◉<span class="dock-indicator"></span>
+        </button>
+
+        <button class="dock-icon" data-dock="projects" onclick="dockLaunch('projects')" title="Projects">
+            ▦<span class="dock-indicator"></span>
+        </button>
+
+        <button class="dock-icon" data-dock="cyberwatch" onclick="dockLaunch('cyberwatch')" title="CyberWatch">
+            ⛨<span class="dock-indicator"></span>
+        </button>
+
+        <button class="dock-icon" data-dock="thirdeye" onclick="dockLaunch('thirdeye')" title="3rd Eye">
+            ◉<span class="dock-indicator"></span>
+        </button>
+
+        <button class="dock-icon" onclick="openSpotlight()" title="All Apps / Search">
+            ⌕
+        </button>
+
+        <button class="dock-icon" data-dock="settings" onclick="dockLaunch('settings')" title="Settings">
+            ⚙<span class="dock-indicator"></span>
+        </button>
+
+    </nav>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     SPOTLIGHT
+========================================================= -->
+
+<div
+    class="overlay"
+    id="spotlightOverlay"
+    onclick="spotlightBackdrop(event)"
+>
+
+    <div class="spotlight">
+
+        <input
+            id="spotlightInput"
+            type="text"
+            placeholder="Search City OS..."
+            autocomplete="off"
+        >
+
+        <div
+            class="results"
+            id="spotlightResults"
+        ></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     CONTROL CENTER
+========================================================= -->
+
+<div
+    class="control-center glass"
+    id="controlCenter"
+>
+
+    <div class="widget-title">
+        Control Center
+    </div>
+
+
+    <div class="control-grid">
+
+        <button
+            class="control-tile active"
+            id="motionTile"
+            onclick="toggleMotion()"
+        >
+
+            <b>
+                Liquid Motion
+            </b>
+
+            <small>
+                Background animation
+            </small>
+
+        </button>
+
+
+        <button
+            class="control-tile active"
+            id="glassTile"
+            onclick="toggleGlass()"
+        >
+
+            <b>
+                Glass
+            </b>
+
+            <small>
+                Blur & translucency
+            </small>
+
+        </button>
+
+
+        <button
+            class="control-tile"
+            onclick="launchApp('settings')"
+        >
+
+            <b>
+                Settings
+            </b>
+
+            <small>
+                Personalize City OS
+            </small>
+
+        </button>
+
+
+        <button
+            class="control-tile"
+            onclick="openSpotlight()"
+        >
+
+            <b>
+                Spotlight
+            </b>
+
+            <small>
+                Search apps
+            </small>
+
+        </button>
+
+    </div>
+
+
+    <div class="slider-wrap">
+
+        <label>
+            Glass Blur
+        </label>
+
+        <input
+            id="blurSlider"
+            type="range"
+            min="5"
+            max="50"
+            value="30"
+        >
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     NOTIFICATIONS
+========================================================= -->
+
+<div
+    class="notifications glass"
+    id="notifications"
+>
+
+    <div class="widget-title">
+        Notifications
+    </div>
+
+
+    <div class="notification">
+
+        <b>
+            City OS
+        </b>
+
+        <p>
+            Welcome back. All systems are ready.
+        </p>
+
+    </div>
+
+
+    <div class="notification">
+
+        <b>
+            Projects
+        </b>
+
+        <p>
+            City Tweaks and City Spoofer are available in Projects.
+        </p>
+
+    </div>
+
+
+    <div class="notification">
+
+        <b>
+            Sin City
+        </b>
+
+        <p>
+            Your Discord invite is connected.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- Toast -->
+
+<div
+    class="toast"
+    id="toast"
+>
+    Done
+</div>
+
+
+
+<script>
+
+
+let cyberMapInstance = null;
+let cyberUserMarker = null;
+let cyberUserCircle = null;
+let cyberUserLocation = null;
+
+const cyberIncidents = [
+    { name: "France Finance Ministry / DGFiP", place: "Paris, France", lat: 48.8566, lng: 2.3522, severity: "critical", date: "Aug 14, 2026" },
+    { name: "Levi Strauss & Co.", place: "San Francisco, United States", lat: 37.7749, lng: -122.4194, severity: "high", date: "Aug 7, 2026" },
+    { name: "Taiwan Government Systems", place: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654, severity: "critical", date: "Aug 13, 2026" },
+    { name: "UK Education & Police Systems", place: "London, United Kingdom", lat: 51.5074, lng: -0.1278, severity: "high", date: "Jul 29, 2026" },
+    { name: "Novo Nordisk", place: "Copenhagen area, Denmark", lat: 55.6761, lng: 12.5683, severity: "critical", date: "Jun 2026" }
+];
+
+function cyberDistanceMiles(lat1, lng1, lat2, lng2) {
+    const toRad = value => value * Math.PI / 180;
+    const earthMiles = 3958.8;
+    const dLat = toRad(lat2 - lat1);
+    const dLng = toRad(lng2 - lng1);
+    const a = Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLng / 2) ** 2;
+    return earthMiles * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function initCyberMap() {
+    const el = document.getElementById("cyberMap");
+    if (!el) return;
+
+    if (typeof L === "undefined") {
+        el.innerHTML = `<div class="cyber-map-fallback">
+            <b>Map unavailable</b>
+            <span>The map library did not load. Check your internet connection and reopen CyberWatch.</span>
+        </div>`;
+        return;
+    }
+
+    if (cyberMapInstance) {
+        setTimeout(() => cyberMapInstance.invalidateSize(), 80);
+        if (cyberUserLocation) showCyberLocalView(false);
+        return;
+    }
+
+    cyberMapInstance = L.map(el, {
+        zoomControl: true,
+        worldCopyJump: true,
+        minZoom: 2
+    }).setView([25, 8], 2);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(cyberMapInstance);
+
+    const bounds = [];
+
+    cyberIncidents.forEach(item => {
+        const icon = L.divIcon({
+            className: `breach-marker ${item.severity}`,
+            iconSize: [18, 18]
+        });
+
+        L.marker([item.lat, item.lng], { icon })
+            .addTo(cyberMapInstance)
+            .bindPopup(`<b>${item.name}</b><span>${item.place}<br>${item.date} · ${item.severity.toUpperCase()}</span>`);
+
+        bounds.push([item.lat, item.lng]);
+    });
+
+    if (bounds.length) {
+        cyberMapInstance.fitBounds(bounds, { padding: [28, 28], maxZoom: 3 });
+    }
+
+    setTimeout(() => cyberMapInstance.invalidateSize(), 120);
+}
+
+function requestCyberLocation() {
+    const status = document.getElementById("cyberLocalStatus");
+    const button = document.getElementById("cyberLocalBtn");
+
+    if (!navigator.geolocation) {
+        if (status) status.textContent = "Location is not supported by this browser.";
+        return;
+    }
+
+    if (status) status.textContent = "Requesting your approximate location…";
+    if (button) button.disabled = true;
+
+    navigator.geolocation.getCurrentPosition(
+        position => {
+            cyberUserLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            try {
+                localStorage.setItem("cityOSCyberLocation", JSON.stringify(cyberUserLocation));
+            } catch (_) {}
+
+            if (status) status.textContent = "Local mode on — closest tracked reports are shown first.";
+            if (button) {
+                button.disabled = false;
+                button.textContent = "Refresh location";
+            }
+            showCyberLocalView(true);
+        },
+        error => {
+            if (button) button.disabled = false;
+            if (status) {
+                status.textContent = error.code === 1
+                    ? "Location permission was denied. Global reports are still available."
+                    : "Couldn’t get your location. Global reports are still available.";
+            }
+        },
+        { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+    );
+}
+
+function showCyberLocalView(animate = true) {
+    if (!cyberUserLocation) return;
+
+    const { lat, lng } = cyberUserLocation;
+
+    if (cyberMapInstance && typeof L !== "undefined") {
+        if (cyberUserMarker) cyberMapInstance.removeLayer(cyberUserMarker);
+        if (cyberUserCircle) cyberMapInstance.removeLayer(cyberUserCircle);
+
+        const userIcon = L.divIcon({ className: "cyber-user-marker", iconSize: [18, 18] });
+        cyberUserMarker = L.marker([lat, lng], { icon: userIcon })
+            .addTo(cyberMapInstance)
+            .bindPopup("<b>Your area</b><span>CyberWatch uses this only to sort and center nearby public reports.</span>");
+
+        cyberUserCircle = L.circle([lat, lng], {
+            radius: 160934,
+            weight: 1,
+            opacity: .42,
+            fillOpacity: .035
+        }).addTo(cyberMapInstance);
+
+        cyberMapInstance.setView([lat, lng], 5, { animate });
+    }
+
+    const feed = document.getElementById("cyberFeed");
+    if (!feed) return;
+
+    const cards = Array.from(feed.querySelectorAll(".cyber-item"));
+    cards.forEach(card => {
+        const cardLat = Number(card.dataset.cyberLat);
+        const cardLng = Number(card.dataset.cyberLng);
+        const miles = cyberDistanceMiles(lat, lng, cardLat, cardLng);
+        card.dataset.cyberDistance = String(miles);
+
+        const top = card.querySelector(".cyber-item-top");
+        if (top) {
+            let badge = top.querySelector(".cyber-distance");
+            if (!badge) {
+                badge = document.createElement("span");
+                badge.className = "cyber-distance";
+                top.appendChild(badge);
+            }
+            badge.textContent = miles < 1 ? "Nearby" : `${Math.round(miles).toLocaleString()} mi away`;
+        }
+    });
+
+    cards.sort((a, b) => Number(a.dataset.cyberDistance) - Number(b.dataset.cyberDistance));
+    cards.forEach(card => feed.appendChild(card));
+
+    const closest = cards[0];
+    const status = document.getElementById("cyberLocalStatus");
+    if (closest && status) {
+        const miles = Number(closest.dataset.cyberDistance);
+        const name = closest.querySelector(".cyber-entity b")?.textContent?.trim() || "tracked incident";
+        status.textContent = miles <= 100
+            ? `Local mode on — ${name} is about ${Math.round(miles)} miles from you.`
+            : `Local mode on — no tracked report is within 100 miles. Closest is ${name}, about ${Math.round(miles).toLocaleString()} miles away.`;
+    }
+}
+
+function restoreCyberLocation() {
+    try {
+        const saved = JSON.parse(localStorage.getItem("cityOSCyberLocation") || "null");
+        if (saved && Number.isFinite(saved.lat) && Number.isFinite(saved.lng)) {
+            cyberUserLocation = saved;
+            const button = document.getElementById("cyberLocalBtn");
+            if (button) button.textContent = "Refresh location";
+            showCyberLocalView(false);
+        }
+    } catch (_) {}
+}
+
+function filterCyberWatch(category, button) {
+
+    const feed =
+        document.getElementById("cyberFeed");
+
+    if (!feed) return;
+
+    feed
+        .querySelectorAll(".cyber-item")
+        .forEach(item => {
+
+            const categories =
+                (item.dataset.cyberCategory || "")
+                .split(" ");
+
+            item.style.display =
+                category === "all" ||
+                categories.includes(category)
+                    ? "block"
+                    : "none";
+
+        });
+
+    const win =
+        feed.closest(".window");
+
+    if (win) {
+        win
+            .querySelectorAll(".cyber-filter")
+            .forEach(filter =>
+                filter.classList.remove("active")
+            );
+    }
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+}
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const AVATAR_CITY =
+"https://images-ext-1.discordapp.net/external/Y24OjNdjNjTExjzmfgf3pTcOoRtR-N_31cEjyOWorKU/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/1215522544564703323/540ea8e953b23da955b75c9c7c605350.png?format=webp&quality=lossless";
+
+const AVATAR_EM =
+"https://cdn.discordapp.com/avatars/1537214275616120914/b1992012df5c46fdb67a48ba7b4ca977.png?size=512";
+
+const AVATAR_AUZ =
+"https://cdn.discordapp.com/avatars/1394558216083476502/494cd0012ceceb0ff6dec039492a9b2d.png?size=512";
+
+const PROJECT_LOGO =
+"https://cdn.discordapp.com/icons/1394761199681409045/8f75284bf0dc3ad6fc6d41b675cd05f1.png?size=512";
+
+
+/* =========================================================
+   APP CONTENT
+========================================================= */
+
+const apps = {
+
+    sincity: {
+
+        title: "Sin City",
+
+        subtitle: "Community",
+
+        icon: "◉",
+
+        html: `
+
+            <div class="app-hero">
+
+                <h2>
+                    Sin City
+                </h2>
+
+                <p>
+                    Community, projects, graphics, creators,
+                    and everything connected to the City ecosystem.
+                </p>
+
+            </div>
+
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <h3>
+                        Discord
+                    </h3>
+
+                    <p>
+                        Join the main Sin City community.
+                    </p>
+
+                    <a
+                        class="action"
+                        href="https://discord.gg/hVjJF8kPV4"
+                        target="_blank"
+                    >
+                        Open Invite →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        Core Team
+                    </h3>
+
+                    <p>
+                        City, Em, and Auz run the core Sin City team.
+                    </p>
+
+                    <button
+                        class="action"
+                        onclick="launchApp('friends')"
+                    >
+                        View Team →
+                    </button>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        Projects
+                    </h3>
+
+                    <p>
+                        City Tweaks and City Spoofer.
+                    </p>
+
+                    <button
+                        class="action"
+                        onclick="launchApp('projects')"
+                    >
+                        Open Projects →
+                    </button>
+
+                </div>
+
+            </div>
+
+        `
+    },
+
+
+    projects: {
+
+        title: "Projects",
+
+        subtitle: "City ecosystem",
+
+        icon: "▦",
+
+        html: `
+
+            <div class="app-hero">
+
+                <h2>
+                    City Projects
+                </h2>
+
+                <p>
+                    Everything currently being built under
+                    the City brand.
+                </p>
+
+            </div>
+
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <img
+                            src="${PROJECT_LOGO}"
+                            alt=""
+                        >
+
+                        <div>
+
+                            <h3>
+                                City Tweaks
+                            </h3>
+
+                            <p>
+                                Active project
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <p style="margin-top:12px">
+                        PC performance, optimization,
+                        cleanup and system tuning tools.
+                    </p>
+
+                    <a
+                        class="action"
+                        href="https://discord.gg/hVjJF8kPV4"
+                        target="_blank"
+                    >
+                        Learn More →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <img
+                            src="${PROJECT_LOGO}"
+                            alt=""
+                        >
+
+                        <div>
+
+                            <h3>
+                                City Spoofer
+                            </h3>
+
+                            <p>
+                                City project
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <p style="margin-top:12px">
+                        Another utility project in the
+                        growing City ecosystem.
+                    </p>
+
+                    <a
+                        class="action"
+                        href="https://discord.gg/hVjJF8kPV4"
+                        target="_blank"
+                    >
+                        View Community →
+                    </a>
+
+                </div>
+
+            </div>
+
+        `
+    },
+
+
+    status: {
+
+        title: "Status",
+
+        subtitle: "City services",
+
+        icon: "●",
+
+        html: `
+
+            <div class="app-hero">
+                <h2>System Status</h2>
+                <p>Current availability for City services and projects.</p>
+            </div>
+
+            <div class="status-overview">
+                <div class="status-stat">
+                    <small>Operational</small>
+                    <strong>1 / 2</strong>
+                </div>
+                <div class="status-stat">
+                    <small>Degraded / Offline</small>
+                    <strong>1</strong>
+                </div>
+                <div class="status-stat">
+                    <small>Overall</small>
+                    <strong>Partial</strong>
+                </div>
+            </div>
+
+            <div class="service-list">
+
+                <div class="service-card">
+                    <div class="service-main">
+                        <div class="service-icon">⚡</div>
+                        <div class="service-copy">
+                            <b>City Tweaks</b>
+                            <p>Performance tweaks and optimization service is online and functional.</p>
+                        </div>
+                    </div>
+                    <span class="service-pill online">Online & Functional</span>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-main">
+                        <div class="service-icon">◇</div>
+                        <div class="service-copy">
+                            <b>City Spoof</b>
+                            <p>This service is currently unavailable.</p>
+                        </div>
+                    </div>
+                    <span class="service-pill offline">Offline</span>
+                </div>
+
+            </div>
+
+            <div class="status-note">
+                Status is maintained by the Sin City team. Availability can change as projects are updated.
+            </div>
+
+        `
+    },
+
+
+    cyberwatch: {
+
+        title: "CyberWatch",
+
+        subtitle: "Recent breaches & major hacks",
+
+        icon: "⛨",
+
+        html: `
+
+            <div class="app-hero">
+
+                <h2>
+                    CyberWatch
+                </h2>
+
+                <p>
+                    A public-intelligence feed for recent major breaches,
+                    ransomware incidents and widely reported hacks.
+                </p>
+
+            </div>
+
+            <div class="cyber-toolbar">
+
+                <div class="cyber-status">
+                    <span class="cyber-pulse"></span>
+                    Intel snapshot updated Aug 15, 2026
+                </div>
+
+                <div class="cyber-filters">
+                    <button class="cyber-filter active" data-cyber-filter="all" onclick="filterCyberWatch('all', this)">All</button>
+                    <button class="cyber-filter" data-cyber-filter="breach" onclick="filterCyberWatch('breach', this)">Breaches</button>
+                    <button class="cyber-filter" data-cyber-filter="government" onclick="filterCyberWatch('government', this)">Government</button>
+                    <button class="cyber-filter" data-cyber-filter="corporate" onclick="filterCyberWatch('corporate', this)">Corporate</button>
+                </div>
+
+            </div>
+
+            <div class="cyber-local-row">
+                <div class="cyber-local-copy">
+                    <b>Nearby Cyber Activity</b>
+                    <small id="cyberLocalStatus">Turn on local mode to center the map on your area and sort public incidents by distance.</small>
+                </div>
+                <button class="cyber-local-btn" id="cyberLocalBtn" onclick="requestCyberLocation()">Use my location</button>
+            </div>
+
+            <div class="cyber-map-shell">
+                <div class="cyber-map-head">
+                    <div>
+                        <b>Local + Global Incident Map</b>
+                        <small>Enable local mode to center on you and see the nearest tracked public reports first.</small>
+                    </div>
+                    <span class="cyber-severity high">5 tracked</span>
+                </div>
+                <div class="cyber-map" id="cyberMap" aria-label="World map of recent publicly reported cyber incidents"></div>
+            </div>
+
+            <div class="cyber-feed" id="cyberFeed">
+
+                <article class="cyber-item" data-cyber-category="breach government" data-cyber-lat="48.8566" data-cyber-lng="2.3522">
+                    <div class="cyber-item-top">
+                        <div class="cyber-entity">
+                            <div class="cyber-icon">🇫🇷</div>
+                            <div>
+                                <b>France Finance Ministry / DGFiP</b>
+                                <small>Publicly reported Aug 14, 2026</small>
+                            </div>
+                        </div>
+                        <span class="cyber-severity critical">Critical</span>
+                    </div>
+                    <p class="cyber-summary">
+                        France acknowledged a breach involving its tax authority after stolen taxpayer data was offered for sale. Public reporting said roughly 600,000 detailed records were released while the attacker claimed broader access.
+                    </p>
+                    <div class="cyber-meta">
+                        <span class="cyber-chip">Data breach</span>
+                        <span class="cyber-chip">Government</span>
+                        <span class="cyber-chip">Taxpayer data</span>
+                    </div>
+                    <a class="cyber-source" href="https://www.lemonde.fr/en/pixels/article/2026/08/14/french-taxpayers-data-stolen-in-hack-of-finance-ministry_6756510_13.html" target="_blank" rel="noopener">Read public report →</a>
+                </article>
+
+                <article class="cyber-item" data-cyber-category="breach corporate" data-cyber-lat="37.7749" data-cyber-lng="-122.4194">
+                    <div class="cyber-item-top">
+                        <div class="cyber-entity">
+                            <div class="cyber-icon">👖</div>
+                            <div>
+                                <b>Levi Strauss & Co.</b>
+                                <small>Disclosed Aug 7, 2026</small>
+                            </div>
+                        </div>
+                        <span class="cyber-severity high">High</span>
+                    </div>
+                    <p class="cyber-summary">
+                        Levi Strauss disclosed unauthorized access to company systems after a social-engineering attack targeted three employees. The company said corporate data was accessed.
+                    </p>
+                    <div class="cyber-meta">
+                        <span class="cyber-chip">Social engineering</span>
+                        <span class="cyber-chip">Corporate</span>
+                        <span class="cyber-chip">Unauthorized access</span>
+                    </div>
+                    <a class="cyber-source" href="https://www.reuters.com/legal/government/levi-strauss-reveals-cybersecurity-breach-amid-wider-wave-attacks-2026-08-07/" target="_blank" rel="noopener">Read public report →</a>
+                </article>
+
+                <article class="cyber-item" data-cyber-category="government breach" data-cyber-lat="25.0330" data-cyber-lng="121.5654">
+                    <div class="cyber-item-top">
+                        <div class="cyber-entity">
+                            <div class="cyber-icon">🇹🇼</div>
+                            <div>
+                                <b>Taiwan Government Systems</b>
+                                <small>Reported Aug 13, 2026</small>
+                            </div>
+                        </div>
+                        <span class="cyber-severity critical">Critical</span>
+                    </div>
+                    <p class="cyber-summary">
+                        Taiwan said it faced an unusual AI-assisted cyberattack. Reporting described compromised government accounts and theft of personnel records, with additional targeting of nuclear-safety and energy organizations.
+                    </p>
+                    <div class="cyber-meta">
+                        <span class="cyber-chip">Government</span>
+                        <span class="cyber-chip">AI-assisted intrusion</span>
+                        <span class="cyber-chip">Account compromise</span>
+                    </div>
+                    <a class="cyber-source" href="https://www.theguardian.com/technology/2026/aug/13/taiwan-ai-assisted-cyber-attacks-overseas" target="_blank" rel="noopener">Read public report →</a>
+                </article>
+
+                <article class="cyber-item" data-cyber-category="breach government" data-cyber-lat="51.5074" data-cyber-lng="-0.1278">
+                    <div class="cyber-item-top">
+                        <div class="cyber-entity">
+                            <div class="cyber-icon">🇬🇧</div>
+                            <div>
+                                <b>UK Education & Police Systems</b>
+                                <small>Reported Jul 29, 2026</small>
+                            </div>
+                        </div>
+                        <span class="cyber-severity high">High</span>
+                    </div>
+                    <p class="cyber-summary">
+                        Attackers stole hundreds of thousands of records connected to the UK Department for Education and Police National Legal Database, according to public reporting. Authorities opened investigations and containment work.
+                    </p>
+                    <div class="cyber-meta">
+                        <span class="cyber-chip">Data theft</span>
+                        <span class="cyber-chip">Government</span>
+                        <span class="cyber-chip">Public-sector systems</span>
+                    </div>
+                    <a class="cyber-source" href="https://www.theguardian.com/technology/2026/jul/29/department-for-education-police-hackers-cybercrime" target="_blank" rel="noopener">Read public report →</a>
+                </article>
+
+                <article class="cyber-item" data-cyber-category="corporate breach" data-cyber-lat="55.6761" data-cyber-lng="12.5683">
+                    <div class="cyber-item-top">
+                        <div class="cyber-entity">
+                            <div class="cyber-icon">💊</div>
+                            <div>
+                                <b>Novo Nordisk</b>
+                                <small>Major incident disclosed Jun 2026</small>
+                            </div>
+                        </div>
+                        <span class="cyber-severity critical">Critical</span>
+                    </div>
+                    <p class="cyber-summary">
+                        Novo Nordisk acknowledged unauthorized access to limited internal systems and data after an extortion group claimed a much larger theft. The company did not confirm the attacker’s full claimed scope.
+                    </p>
+                    <div class="cyber-meta">
+                        <span class="cyber-chip">Extortion</span>
+                        <span class="cyber-chip">Pharmaceutical</span>
+                        <span class="cyber-chip">Corporate data</span>
+                    </div>
+                    <a class="cyber-source" href="https://www.reuters.com/legal/government/hacking-group-claims-major-hack-novo-nordisk-attempted-25-million-extortion-2026-06-16/" target="_blank" rel="noopener">Read public report →</a>
+                </article>
+
+            </div>
+
+            <div class="cyber-note">
+                CyberWatch is informational only. Local mode uses your browser location only to center the map and rank the tracked public reports by distance; it does not claim every cyber incident near you is represented. It intentionally leaves out exploit steps, credentials, malware payloads and other operational attack details.
+            </div>
+
+        `
+    },
+
+
+    thirdeye: {
+
+        title: "3rd Eye",
+
+        subtitle: "Privacy & threat awareness",
+
+        icon: "◉",
+
+        html: `
+            <div class="app-hero">
+                <h2>3rd Eye</h2>
+                <p>
+                    A defensive awareness center for the things people usually miss: exposed accounts,
+                    phishing signals, public digital footprint, risky permissions and suspicious activity.
+                </p>
+            </div>
+
+            <div class="third-eye-wrap">
+                <section class="third-eye-hero">
+                    <div class="third-eye-radar" aria-label="Animated privacy awareness radar"></div>
+                    <div class="third-eye-copy">
+                        <h3>See what is looking back.</h3>
+                        <p>
+                            3rd Eye is built around defensive OSINT and privacy awareness. It helps you think about
+                            what your accounts and devices may expose without tracking people, collecting credentials,
+                            or accessing private systems.
+                        </p>
+                        <div class="third-eye-status">
+                            <span class="third-eye-pill">Public footprint</span>
+                            <span class="third-eye-pill">Account exposure</span>
+                            <span class="third-eye-pill">Phishing lens</span>
+                            <span class="third-eye-pill">Permission audit</span>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="third-eye-grid">
+                    <article class="third-eye-card">
+                        <div class="third-eye-card-head"><b>Exposure Radar</b><span class="third-eye-level">CHECK</span></div>
+                        <p>Review whether old usernames, reused emails, public profiles, breach notices, or forgotten accounts increase your exposure.</p>
+                    </article>
+                    <article class="third-eye-card">
+                        <div class="third-eye-card-head"><b>Phishing Lens</b><span class="third-eye-level">WATCH</span></div>
+                        <p>Look for urgency, mismatched domains, unexpected attachments, fake login prompts, and requests for codes or credentials.</p>
+                    </article>
+                    <article class="third-eye-card">
+                        <div class="third-eye-card-head"><b>Permission Audit</b><span class="third-eye-level">DEVICE</span></div>
+                        <p>Check which apps have access to location, camera, microphone, contacts, browser data, startup, and background activity.</p>
+                    </article>
+                    <article class="third-eye-card">
+                        <div class="third-eye-card-head"><b>Account Shield</b><span class="third-eye-level">LOCK</span></div>
+                        <p>Use unique passwords, passkeys or MFA, review active sessions, remove unknown devices, and rotate credentials after confirmed exposure.</p>
+                    </article>
+                </div>
+
+                <div class="third-eye-note">
+                    3rd Eye is intentionally defensive. It does not provide stalking, doxxing, credential harvesting, spyware, or unauthorized surveillance tools.
+                </div>
+            </div>
+        `
+    },
+
+
+    updates: {
+
+        title: "Updates",
+
+        subtitle: "Sin City board",
+
+        icon: "✦",
+
+        html: `
+
+            <div class="app-hero">
+
+                <h2>
+                    Sin City Updates
+                </h2>
+
+                <p>
+                    Post launches, announcements, changelogs and anything
+                    the community should know about.
+                </p>
+
+            </div>
+
+            <div class="update-composer">
+
+                <textarea
+                    id="updateComposer"
+                    maxlength="1000"
+                    placeholder="What’s new in Sin City?"
+                ></textarea>
+
+                <div class="update-composer-actions">
+                    <span class="update-composer-hint">
+                        Posts are saved on this device.
+                    </span>
+
+                    <button
+                        class="action"
+                        onclick="publishUpdate()"
+                    >
+                        Post Update →
+                    </button>
+                </div>
+
+            </div>
+
+            <div
+                class="update-feed"
+                id="updateFeed"
+            ></div>
+
+        `
+    },
+
+
+    friends: {
+
+        title: "Friends",
+
+        subtitle: "Sin City team",
+
+        icon: "♧",
+
+        html: `
+
+            <div class="app-hero">
+
+                <h2>
+                    Friends
+                </h2>
+
+                <p>
+                    The people closest to the Sin City operation.
+                </p>
+
+            </div>
+
+
+            <div class="friend-list">
+
+
+                <div class="friend">
+
+                    <div class="friend-avatar-wrap">
+
+                        <img
+                            src="${AVATAR_CITY}"
+                            alt="City"
+                        >
+
+                        <span class="friend-online"></span>
+
+                    </div>
+
+                    <div>
+
+                        <b>
+                            City
+                        </b>
+
+                        <small>
+                            Owner • Sin City
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="friend">
+
+                    <div class="friend-avatar-wrap">
+
+                        <img
+                            src="${AVATAR_EM}"
+                            alt="Em"
+                        >
+
+                        <span class="friend-online"></span>
+
+                    </div>
+
+                    <div>
+
+                        <b>
+                            Em
+                        </b>
+
+                        <small>
+                            Co-Owner • Sin City
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="friend">
+
+                    <div class="friend-avatar-wrap">
+
+                        <img
+                            src="${AVATAR_AUZ}"
+                            alt="Auz"
+                        >
+
+                        <span class="friend-online"></span>
+
+                    </div>
+
+                    <div>
+
+                        <b>
+                            Auz
+                        </b>
+
+                        <small>
+                            COO • Sin City
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        `
+    },
+
+
+    socials: {
+
+        title: "Socials",
+
+        subtitle: "Connect",
+
+        icon: "♪",
+
+        html: `
+
+            <div class="app-hero">
+
+                <h2>
+                    Socials
+                </h2>
+
+                <p>
+                    Keep up with City and Sin City across
+                    the platforms we use.
+                </p>
+
+            </div>
+
+
+            <div class="link-list">
+
+
+                <a
+                    class="link-row"
+                    href="https://www.tiktok.com/@sincity.exe"
+                    target="_blank"
+                >
+
+                    <div class="link-left">
+
+                        <div class="link-symbol">
+                            ♪
+                        </div>
+
+                        <div>
+
+                            <b>
+                                TikTok
+                            </b>
+
+                            <small>
+                                @sincity.exe
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="link-row"
+                    href="https://discord.gg/hVjJF8kPV4"
+                    target="_blank"
+                >
+
+                    <div class="link-left">
+
+                        <div class="link-symbol">
+                            🔗
+                        </div>
+
+                        <div>
+
+                            <b>
+                                Sin City Discord
+                            </b>
+
+                            <small>
+                                Join the community
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="link-row"
+                    href="https://www.twitch.tv/notinyocity"
+                    target="_blank"
+                >
+
+                    <div class="link-left">
+
+                        <div class="link-symbol">
+                            ▶
+                        </div>
+
+                        <div>
+
+                            <b>
+                                Twitch
+                            </b>
+
+                            <small>
+                                @notinyocity
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        `
+    },
+
+
+    payments: {
+
+        title: "Payments",
+
+        subtitle: "City Wallet",
+
+        icon: "◇",
+
+        html: `
+
+            <div class="app-hero">
+
+                <h2>
+                    City Wallet
+                </h2>
+
+                <p>
+                    Choose a payment method.
+                </p>
+
+            </div>
+
+
+            <div class="link-list">
+
+
+                <a
+                    class="link-row"
+                    href="https://cash.app/$chiefrhett"
+                    target="_blank"
+                >
+
+                    <div class="link-left">
+
+                        <div class="link-symbol">
+                            $
+                        </div>
+
+                        <div>
+
+                            <b>
+                                Cash App
+                            </b>
+
+                            <small>
+                                $chiefrhett
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="link-row"
+                    href="https://paypal.me/314cj"
+                    target="_blank"
+                >
+
+                    <div class="link-left">
+
+                        <div class="link-symbol">
+                            P
+                        </div>
+
+                        <div>
+
+                            <b>
+                                PayPal
+                            </b>
+
+                            <small>
+                                @314cj
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="link-row"
+                    href="https://venmo.com/jaysmoneygun"
+                    target="_blank"
+                >
+
+                    <div class="link-left">
+
+                        <div class="link-symbol">
+                            V
+                        </div>
+
+                        <div>
+
+                            <b>
+                                Venmo
+                            </b>
+
+                            <small>
+                                @jaysmoneygun
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        `
+    },
+
+
+    about: {
+
+        title: "About",
+
+        subtitle: "City OS",
+
+        icon: "◉",
+
+        html: `
+
+            <div class="app-hero">
+
+                <h2>
+                    City OS
+                </h2>
+
+                <p>
+                    A browser-based personal operating system
+                    built around City, Sin City, projects,
+                    socials, friends and more.
+                </p>
+
+            </div>
+
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <h3>
+                        City
+                    </h3>
+
+                    <p>
+                        Creator and owner of the City ecosystem.
+                    </p>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        Liquid Glass
+                    </h3>
+
+                    <p>
+                        Dynamic blur, transparency,
+                        ambient lighting and motion.
+                    </p>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        App System
+                    </h3>
+
+                    <p>
+                        Open, move, minimize, maximize
+                        and close apps without leaving City OS.
+                    </p>
+
+                </div>
+
+            </div>
+
+        `
+    },
+
+
+    settings: {
+
+        title: "Settings",
+
+        subtitle: "City OS preferences",
+
+        icon: "⚙",
+
+        html: `
+
+            <div class="app-hero">
+
+                <h2>
+                    Settings
+                </h2>
+
+                <p>
+                    Customize City OS.
+                    Changes are saved in your browser.
+                </p>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <b>
+                        Liquid Motion
+                    </b>
+
+                    <small>
+                        Animate the wallpaper.
+                    </small>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    id="settingsMotion"
+                    onclick="toggleMotion()"
+                >
+                    <span></span>
+                </button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <b>
+                        Liquid Glass
+                    </b>
+
+                    <small>
+                        Toggle strong glass blur.
+                    </small>
+
+                </div>
+
+                <button
+                    class="switch on"
+                    id="settingsGlass"
+                    onclick="toggleGlass()"
+                >
+                    <span></span>
+                </button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+
+                    <b>
+                        Accent Color
+                    </b>
+
+                    <small>
+                        Change the City OS accent.
+                    </small>
+
+                </div>
+
+                <div class="color-row">
+
+                    <button
+                        class="color-chip"
+                        style="background:#8ed8ff"
+                        onclick="setAccent('#8ed8ff','142,216,255')"
+                    ></button>
+
+                    <button
+                        class="color-chip"
+                        style="background:#bda6ff"
+                        onclick="setAccent('#bda6ff','189,166,255')"
+                    ></button>
+
+                    <button
+                        class="color-chip"
+                        style="background:#7df1bd"
+                        onclick="setAccent('#7df1bd','125,241,189')"
+                    ></button>
+
+                    <button
+                        class="color-chip"
+                        style="background:#ff9fcf"
+                        onclick="setAccent('#ff9fcf','255,159,207')"
+                    ></button>
+
+                </div>
+
+            </div>
+
+
+            <section class="wallpaper-settings">
+
+                <div class="wallpaper-settings-head">
+                    <div>
+                        <h3>Wallpaper</h3>
+                        <p>Choose a City OS atmosphere. Preview it first, then apply instantly.</p>
+                    </div>
+                    <div class="wallpaper-current" id="wallpaperCurrent">Current: Midnight City</div>
+                </div>
+
+                <div class="wallpaper-grid" id="wallpaperGrid">
+
+                    <button class="wallpaper-option" data-wallpaper="0" onclick="setWallpaper(0)">
+                        <div class="wallpaper-preview" style="--wa:#06111a;--wb:#15172a;--wc:#091018;--glow-a:rgba(0,200,255,.72);--glow-b:rgba(130,80,255,.68)">
+                            <div class="wallpaper-preview-ui"><div class="wallpaper-preview-bar"></div><div class="wallpaper-preview-center"></div><div class="wallpaper-preview-dock"></div></div>
+                        </div>
+                        <div class="wallpaper-meta"><div><b>Midnight City</b><small>Blue • violet • glass</small></div><span class="wallpaper-check">✓</span></div>
+                    </button>
+
+                    <button class="wallpaper-option" data-wallpaper="1" onclick="setWallpaper(1)">
+                        <div class="wallpaper-preview" style="--wa:#090b12;--wb:#251228;--wc:#0d0913;--glow-a:rgba(255,65,160,.58);--glow-b:rgba(138,72,255,.72)">
+                            <div class="wallpaper-preview-ui"><div class="wallpaper-preview-bar"></div><div class="wallpaper-preview-center"></div><div class="wallpaper-preview-dock"></div></div>
+                        </div>
+                        <div class="wallpaper-meta"><div><b>Vice</b><small>Magenta • purple • night</small></div><span class="wallpaper-check">✓</span></div>
+                    </button>
+
+                    <button class="wallpaper-option" data-wallpaper="2" onclick="setWallpaper(2)">
+                        <div class="wallpaper-preview" style="--wa:#06110d;--wb:#10241d;--wc:#070c0a;--glow-a:rgba(0,235,165,.62);--glow-b:rgba(35,130,95,.56)">
+                            <div class="wallpaper-preview-ui"><div class="wallpaper-preview-bar"></div><div class="wallpaper-preview-center"></div><div class="wallpaper-preview-dock"></div></div>
+                        </div>
+                        <div class="wallpaper-meta"><div><b>Emerald Smoke</b><small>Green • black • calm</small></div><span class="wallpaper-check">✓</span></div>
+                    </button>
+
+                    <button class="wallpaper-option" data-wallpaper="3" onclick="setWallpaper(3)">
+                        <div class="wallpaper-preview" style="--wa:#120d08;--wb:#291610;--wc:#0d0806;--glow-a:rgba(255,116,50,.62);--glow-b:rgba(165,58,25,.55)">
+                            <div class="wallpaper-preview-ui"><div class="wallpaper-preview-bar"></div><div class="wallpaper-preview-center"></div><div class="wallpaper-preview-dock"></div></div>
+                        </div>
+                        <div class="wallpaper-meta"><div><b>After Hours</b><small>Amber • ember • dark</small></div><span class="wallpaper-check">✓</span></div>
+                    </button>
+
+                    <button class="wallpaper-option" data-wallpaper="4" onclick="setWallpaper(4)">
+                        <div class="wallpaper-preview" style="--wa:#09060f;--wb:#1f0b30;--wc:#07050b;--glow-a:rgba(173,62,255,.76);--glow-b:rgba(72,43,255,.62)">
+                            <div class="wallpaper-preview-ui"><div class="wallpaper-preview-bar"></div><div class="wallpaper-preview-center"></div><div class="wallpaper-preview-dock"></div></div>
+                        </div>
+                        <div class="wallpaper-meta"><div><b>Sin City Purple</b><small>Deep purple • premium</small></div><span class="wallpaper-check">✓</span></div>
+                    </button>
+
+                    <button class="wallpaper-option" data-wallpaper="5" onclick="setWallpaper(5)">
+                        <div class="wallpaper-preview" style="--wa:#070707;--wb:#151515;--wc:#030303;--glow-a:rgba(255,255,255,.22);--glow-b:rgba(100,100,100,.28)">
+                            <div class="wallpaper-preview-ui"><div class="wallpaper-preview-bar"></div><div class="wallpaper-preview-center"></div><div class="wallpaper-preview-dock"></div></div>
+                        </div>
+                        <div class="wallpaper-meta"><div><b>Obsidian</b><small>Black • silver • minimal</small></div><span class="wallpaper-check">✓</span></div>
+                    </button>
+
+                </div>
+
+            </section>
+
+        `
+    }
+
+};
+
+
+/* =========================================================
+   WINDOW MANAGEMENT
+========================================================= */
+
+const desktop =
+    document.getElementById("desktop");
+
+const openWindows =
+    new Map();
+
+let zCounter = 300;
+
+
+/* Create app */
+
+function launchApp(id) {
+
+    closeControlCenter();
+    closeNotifications();
+
+    if (openWindows.has(id)) {
+
+        const existing =
+            openWindows.get(id);
+
+        existing.classList.remove(
+            "minimized"
+        );
+
+        existing.classList.add(
+            "open"
+        );
+
+        focusWindow(existing);
+
+        updateDockState(id);
+
+        return;
+    }
+
+
+    const app =
+        apps[id];
+
+    if (!app) return;
+
+
+    const win =
+        document.createElement("section");
+
+    win.className =
+        "window glass open";
+
+    win.dataset.app =
+        id;
+
+
+    win.innerHTML = `
+
+        <div class="window-head">
+
+            <div class="window-title">
+
+                <div class="window-badge">
+                    ${app.icon}
+                </div>
+
+                <div class="window-title-text">
+
+                    <b>
+                        ${app.title}
+                    </b>
+
+                    <small>
+                        ${app.subtitle}
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="window-controls">
+
+                <button
+                    class="window-control"
+                    title="Minimize"
+                    onclick="minimizeApp('${id}')"
+                >
+                    −
+                </button>
+
+
+                <button
+                    class="window-control"
+                    title="Maximize"
+                    onclick="maximizeApp('${id}')"
+                >
+                    □
+                </button>
+
+
+                <button
+                    class="window-control close"
+                    title="Close"
+                    onclick="closeApp('${id}')"
+                >
+                    ×
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="window-body">
+            ${app.html}
+        </div>
+
+    `;
+
+
+    desktop.appendChild(
+        win
+    );
+
+
+    openWindows.set(
+        id,
+        win
+    );
+
+
+    makeDraggable(
+        win
+    );
+
+
+    focusWindow(
+        win
+    );
+
+
+    updateDockState(
+        id
+    );
+
+
+    requestAnimationFrame(
+        () => {
+
+            syncSettingsUI();
+
+            if (id === "updates") {
+                renderUpdates();
+            }
+
+            if (id === "cyberwatch") {
+                initCyberMap();
+                setTimeout(restoreCyberLocation, 140);
+            }
+
+        }
+    );
+
+}
+
+
+/* Focus */
+
+function focusWindow(win) {
+
+    zCounter++;
+
+    win.style.zIndex =
+        zCounter;
+
+}
+
+
+/* Close */
+
+function closeApp(id) {
+
+    const win =
+        openWindows.get(id);
+
+    if (!win) return;
+
+
+    win.classList.add(
+        "closing"
+    );
+
+
+    setTimeout(
+        () => {
+
+            win.remove();
+
+            openWindows.delete(
+                id
+            );
+
+            updateDockState(
+                id
+            );
+
+        },
+        240
+    );
+
+}
+
+
+/* Minimize */
+
+function minimizeApp(id) {
+
+    const win =
+        openWindows.get(id);
+
+    if (!win) return;
+
+
+    win.classList.add(
+        "minimized"
+    );
+
+    updateDockState(
+        id
+    );
+
+}
+
+
+/* Maximize */
+
+function maximizeApp(id) {
+
+    const win =
+        openWindows.get(id);
+
+    if (!win) return;
+
+
+    win.classList.toggle(
+        "maximized"
+    );
+
+}
+
+
+/* Dock launch */
+
+function dockLaunch(id) {
+
+    if (
+        openWindows.has(id)
+    ) {
+
+        const win =
+            openWindows.get(id);
+
+        if (
+            win.classList.contains(
+                "minimized"
+            )
+        ) {
+
+            win.classList.remove(
+                "minimized"
+            );
+
+            win.classList.add(
+                "open"
+            );
+
+            focusWindow(
+                win
+            );
+
+        } else {
+
+            minimizeApp(
+                id
+            );
+
+        }
+
+    } else {
+
+        launchApp(
+            id
+        );
+
+    }
+
+
+    updateDockState(
+        id
+    );
+
+}
+
+
+/* Dock state */
+
+function updateDockState(id) {
+
+    const icon =
+        document.querySelector(
+            `[data-dock="${id}"]`
+        );
+
+    if (!icon) return;
+
+
+    if (
+        openWindows.has(id)
+    ) {
+
+        icon.classList.add(
+            "running"
+        );
+
+
+        const win =
+            openWindows.get(id);
+
+
+        icon.classList.toggle(
+            "minimized",
+            win.classList.contains(
+                "minimized"
+            )
+        );
+
+    } else {
+
+        icon.classList.remove(
+            "running",
+            "minimized"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAGGABLE WINDOWS
+========================================================= */
+
+function makeDraggable(win) {
+
+    const head = win.querySelector(".window-head");
+
+    let dragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    const clampPosition = (left, top) => {
+        const desktopRect = desktop.getBoundingClientRect();
+        const headerHeight = Math.max(48, head.offsetHeight || 58);
+
+        // Keep the whole title bar reachable. The body may extend lower than
+        // the desktop while dragging, but the window can never become trapped.
+        const maxTop = Math.max(0, desktopRect.height - headerHeight);
+
+        // Keep at least the title area horizontally reachable as well.
+        const minVisibleX = Math.min(150, Math.max(80, win.offsetWidth * .30));
+        const minLeft = Math.min(0, desktopRect.width - minVisibleX);
+        const maxLeft = Math.max(0, desktopRect.width - minVisibleX);
+
+        return {
+            left: Math.max(minLeft, Math.min(left, maxLeft)),
+            top: Math.max(0, Math.min(top, maxTop))
+        };
+    };
+
+    head.addEventListener("pointerdown", event => {
+        if (event.target.closest(".window-controls")) return;
+        if (win.classList.contains("maximized")) return;
+
+        dragging = true;
+        focusWindow(win);
+
+        const desktopRect = desktop.getBoundingClientRect();
+        const rect = win.getBoundingClientRect();
+
+        // Convert the centered 50% + translate position to real pixels BEFORE
+        // the first pointer move. This prevents the old snap-to-top behavior.
+        const explicitLeft = rect.left - desktopRect.left;
+        const explicitTop = rect.top - desktopRect.top;
+
+        win.style.left = explicitLeft + "px";
+        win.style.top = explicitTop + "px";
+        win.style.transform = "none";
+        win.style.transition = "none";
+
+        offsetX = event.clientX - rect.left;
+        offsetY = event.clientY - rect.top;
+
+        try { head.setPointerCapture(event.pointerId); } catch (_) {}
+        event.preventDefault();
+    });
+
+    head.addEventListener("pointermove", event => {
+        if (!dragging) return;
+
+        const desktopRect = desktop.getBoundingClientRect();
+
+        const rawLeft = event.clientX - desktopRect.left - offsetX;
+        const rawTop = event.clientY - desktopRect.top - offsetY;
+        const next = clampPosition(rawLeft, rawTop);
+
+        win.style.left = next.left + "px";
+        win.style.top = next.top + "px";
+        win.style.transform = "none";
+    });
+
+    const finishDrag = event => {
+        if (!dragging) return;
+        dragging = false;
+        win.style.transition = "";
+        try {
+            if (event && head.hasPointerCapture(event.pointerId)) {
+                head.releasePointerCapture(event.pointerId);
+            }
+        } catch (_) {}
+    };
+
+    head.addEventListener("pointerup", finishDrag);
+    head.addEventListener("pointercancel", finishDrag);
+    head.addEventListener("lostpointercapture", () => {
+        dragging = false;
+        win.style.transition = "";
+    });
+
+    win.addEventListener("pointerdown", () => focusWindow(win));
+}
+
+
+
+
+/* =========================================================
+   SPOTLIGHT
+========================================================= */
+
+const spotlightOverlay =
+    document.getElementById(
+        "spotlightOverlay"
+    );
+
+const spotlightInput =
+    document.getElementById(
+        "spotlightInput"
+    );
+
+const spotlightResults =
+    document.getElementById(
+        "spotlightResults"
+    );
+
+
+function openSpotlight() {
+
+    closeControlCenter();
+    closeNotifications();
+
+    spotlightOverlay.classList.add(
+        "show"
+    );
+
+
+    spotlightInput.value =
+        "";
+
+
+    renderSpotlight(
+        ""
+    );
+
+
+    setTimeout(
+        () => {
+
+            spotlightInput.focus();
+
+        },
+        40
+    );
+
+}
+
+
+function closeSpotlight() {
+
+    spotlightOverlay.classList.remove(
+        "show"
+    );
+
+}
+
+
+function spotlightBackdrop(event) {
+
+    if (
+        event.target ===
+        spotlightOverlay
+    ) {
+
+        closeSpotlight();
+
+    }
+
+}
+
+
+function renderSpotlight(query) {
+
+    const q =
+        query
+        .toLowerCase()
+        .trim();
+
+
+    const results =
+        Object.entries(apps)
+        .filter(
+            ([id,app]) => {
+
+                return (
+                    id +
+                    " " +
+                    app.title +
+                    " " +
+                    app.subtitle
+                )
+                .toLowerCase()
+                .includes(q);
+
+            }
+        );
+
+
+    spotlightResults.innerHTML =
+        results
+        .map(
+            ([id,app]) => `
+
+                <div
+                    class="result"
+                    onclick="
+                        closeSpotlight();
+                        launchApp('${id}');
+                    "
+                >
+
+                    <span>
+                        ${app.icon}
+                    </span>
+
+                    <div>
+
+                        <b
+                            style="
+                                display:block;
+                                font-size:11px;
+                            "
+                        >
+                            ${app.title}
+                        </b>
+
+                        <small
+                            style="
+                                color:var(--muted);
+                                font-size:8px;
+                            "
+                        >
+                            ${app.subtitle}
+                        </small>
+
+                    </div>
+
+                </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+spotlightInput.addEventListener(
+    "input",
+    event => {
+
+        renderSpotlight(
+            event.target.value
+        );
+
+    }
+);
+
+
+/* =========================================================
+   CONTROL CENTER
+========================================================= */
+
+const controlCenter =
+    document.getElementById(
+        "controlCenter"
+    );
+
+const notifications =
+    document.getElementById(
+        "notifications"
+    );
+
+
+function toggleControlCenter() {
+
+    closeNotifications();
+
+    controlCenter.classList.toggle(
+        "open"
+    );
+
+}
+
+
+function closeControlCenter() {
+
+    controlCenter.classList.remove(
+        "open"
+    );
+
+}
+
+
+function toggleNotifications() {
+
+    closeControlCenter();
+
+    notifications.classList.toggle(
+        "open"
+    );
+
+}
+
+
+function closeNotifications() {
+
+    notifications.classList.remove(
+        "open"
+    );
+
+}
+
+
+
+/* =========================================================
+   UPDATES BOARD
+========================================================= */
+
+const UPDATE_STORAGE_KEY = "city-os-updates-v1";
+
+function escapeUpdateText(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function getUpdates() {
+    try {
+        const stored = JSON.parse(localStorage.getItem(UPDATE_STORAGE_KEY) || "[]");
+        if (Array.isArray(stored) && stored.length) return stored;
+    } catch (error) {}
+
+    const starter = [{
+        id: Date.now(),
+        author: "Sin City",
+        text: "City Tweaks 2.1 Premium just launched 🚀",
+        createdAt: new Date().toISOString(),
+        pinned: true
+    }];
+
+    localStorage.setItem(UPDATE_STORAGE_KEY, JSON.stringify(starter));
+    return starter;
+}
+
+function saveUpdates(posts) {
+    localStorage.setItem(UPDATE_STORAGE_KEY, JSON.stringify(posts));
+}
+
+function renderUpdates() {
+    const feed = document.getElementById("updateFeed");
+    if (!feed) return;
+
+    const posts = getUpdates();
+
+    feed.innerHTML = posts.map(post => {
+        const date = new Date(post.createdAt);
+        const timeLabel = Number.isNaN(date.getTime())
+            ? "Just now"
+            : date.toLocaleString([], {
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                minute: "2-digit"
+            });
+
+        return `
+            <article class="update-post">
+                <div class="update-post-head">
+                    <div class="update-author">
+                        <div class="update-avatar">♛</div>
+                        <div>
+                            <b>${escapeUpdateText(post.author || "Sin City")}</b>
+                            <small>Official update</small>
+                        </div>
+                    </div>
+                    <span class="update-time">${escapeUpdateText(timeLabel)}</span>
+                </div>
+
+                <p>${escapeUpdateText(post.text || "")}</p>
+                ${post.pinned ? '<span class="update-badge">Pinned</span>' : ''}
+            </article>
+        `;
+    }).join("");
+}
+
+function publishUpdate() {
+    const composer = document.getElementById("updateComposer");
+    if (!composer) return;
+
+    const text = composer.value.trim();
+    if (!text) {
+        showToast("Write an update first");
+        composer.focus();
+        return;
+    }
+
+    const posts = getUpdates();
+    posts.unshift({
+        id: Date.now(),
+        author: getDisplayName(),
+        text,
+        createdAt: new Date().toISOString(),
+        pinned: false
+    });
+
+    saveUpdates(posts.slice(0, 100));
+    composer.value = "";
+    renderUpdates();
+    showToast("Update posted");
+}
+
+/* =========================================================
+   CLOCK
+========================================================= */
+
+function getDisplayName() {
+
+    const saved = localStorage.getItem("city-display-name");
+    if (saved) return saved;
+
+    const entered = window.prompt(
+        "Welcome to City OS 👑\n\nWhat should we call you?",
+        ""
+    );
+
+    const cleanName = entered && entered.trim()
+        ? entered.trim().slice(0, 28)
+        : "City";
+
+    localStorage.setItem("city-display-name", cleanName);
+    return cleanName;
+}
+
+function updateGreeting(now = new Date()) {
+
+    const greeting = document.getElementById("welcomeGreeting");
+
+    if (greeting) {
+        greeting.innerHTML = `Good evening,<br>${escapeUpdateText(getDisplayName())}.`;
+    }
+}
+
+
+function updateClock() {
+
+    const now =
+        new Date();
+
+    updateGreeting(now);
+
+
+    document.getElementById(
+        "topClock"
+    ).textContent =
+        now.toLocaleTimeString(
+            [],
+            {
+                hour: "numeric",
+                minute: "2-digit"
+            }
+        );
+
+
+    document.getElementById(
+        "dateText"
+    ).textContent =
+        now.toLocaleDateString(
+            [],
+            {
+                weekday: "long",
+                month: "long",
+                day: "numeric"
+            }
+        );
+
+}
+
+
+updateClock();
+
+
+setInterval(
+    updateClock,
+    1000
+);
+
+
+/* =========================================================
+   MOUSE GLASS LIGHT
+========================================================= */
+
+document.addEventListener(
+    "pointermove",
+    event => {
+
+        const x =
+            event.clientX /
+            window.innerWidth *
+            100;
+
+
+        const y =
+            event.clientY /
+            window.innerHeight *
+            100;
+
+
+        document.documentElement
+        .style
+        .setProperty(
+            "--mx",
+            x + "%"
+        );
+
+
+        document.documentElement
+        .style
+        .setProperty(
+            "--my",
+            y + "%"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+const state = {
+
+    motion:
+        localStorage
+        .getItem(
+            "city-motion"
+        ) !== "false",
+
+    glass:
+        localStorage
+        .getItem(
+            "city-glass"
+        ) !== "false",
+
+    blur:
+        Number(
+            localStorage
+            .getItem(
+                "city-blur"
+            ) || 30
+        ),
+
+    accent:
+        localStorage
+        .getItem(
+            "city-accent"
+        ) || "#8ed8ff",
+
+    accentRgb:
+        localStorage
+        .getItem(
+            "city-accent-rgb"
+        ) || "142,216,255",
+
+    wallpaper:
+        Number(
+            localStorage
+            .getItem(
+                "city-wallpaper"
+            ) || 0
+        )
+
+};
+
+
+function applyState() {
+
+    document.documentElement
+    .style
+    .setProperty(
+        "--glass-blur",
+        state.glass
+            ? state.blur + "px"
+            : "5px"
+    );
+
+
+    document.documentElement
+    .style
+    .setProperty(
+        "--glass-alpha",
+        state.glass
+            ? ".10"
+            : ".045"
+    );
+
+
+    document.documentElement
+    .style
+    .setProperty(
+        "--accent",
+        state.accent
+    );
+
+
+    document.documentElement
+    .style
+    .setProperty(
+        "--accent-rgb",
+        state.accentRgb
+    );
+
+
+    document.querySelectorAll(
+        ".liquid, .wave-field"
+    )
+    .forEach(
+        element => {
+
+            element.style
+            .animationPlayState =
+                state.motion
+                    ? "running"
+                    : "paused";
+
+        }
+    );
+
+
+    applyWallpaper(
+        state.wallpaper
+    );
+
+
+    const blurSlider =
+        document.getElementById(
+            "blurSlider"
+        );
+
+
+    blurSlider.value =
+        state.blur;
+
+
+    syncSettingsUI();
+
+}
+
+
+function toggleMotion() {
+
+    state.motion =
+        !state.motion;
+
+
+    localStorage.setItem(
+        "city-motion",
+        state.motion
+    );
+
+
+    applyState();
+
+
+    showToast(
+        state.motion
+            ? "Liquid motion enabled"
+            : "Liquid motion disabled"
+    );
+
+}
+
+
+function toggleGlass() {
+
+    state.glass =
+        !state.glass;
+
+
+    localStorage.setItem(
+        "city-glass",
+        state.glass
+    );
+
+
+    applyState();
+
+
+    showToast(
+        state.glass
+            ? "Liquid glass enabled"
+            : "Reduced glass enabled"
+    );
+
+}
+
+
+function setAccent(
+    color,
+    rgb
+) {
+
+    state.accent =
+        color;
+
+    state.accentRgb =
+        rgb;
+
+
+    localStorage.setItem(
+        "city-accent",
+        color
+    );
+
+
+    localStorage.setItem(
+        "city-accent-rgb",
+        rgb
+    );
+
+
+    applyState();
+
+
+    showToast(
+        "Accent updated"
+    );
+
+}
+
+
+const wallpapers = [
+    { name: "Midnight City", colors: ["#06111a", "#15172a", "#091018"] },
+    { name: "Vice", colors: ["#090b12", "#251228", "#0d0913"] },
+    { name: "Emerald Smoke", colors: ["#06110d", "#10241d", "#070c0a"] },
+    { name: "After Hours", colors: ["#120d08", "#291610", "#0d0806"] },
+    { name: "Sin City Purple", colors: ["#09060f", "#1f0b30", "#07050b"] },
+    { name: "Obsidian", colors: ["#070707", "#151515", "#030303"] }
+];
+
+
+function cycleWallpaper() {
+    setWallpaper((state.wallpaper + 1) % wallpapers.length);
+}
+
+
+function setWallpaper(index) {
+    const safeIndex = Number(index);
+    if (!Number.isInteger(safeIndex) || !wallpapers[safeIndex]) return;
+
+    state.wallpaper = safeIndex;
+    localStorage.setItem("city-wallpaper", state.wallpaper);
+    applyWallpaper(state.wallpaper);
+    syncWallpaperPicker();
+    showToast(wallpapers[state.wallpaper].name + " applied");
+}
+
+
+function applyWallpaper(index) {
+    const wallpaper = wallpapers[index] || wallpapers[0];
+    const colors = wallpaper.colors;
+
+    document.documentElement.style.setProperty("--bg-a", colors[0]);
+    document.documentElement.style.setProperty("--bg-b", colors[1]);
+    document.documentElement.style.setProperty("--bg-c", colors[2]);
+
+    syncWallpaperPicker();
+}
+
+
+function syncWallpaperPicker() {
+    document.querySelectorAll(".wallpaper-option[data-wallpaper]").forEach(option => {
+        option.classList.toggle(
+            "selected",
+            Number(option.dataset.wallpaper) === state.wallpaper
+        );
+    });
+
+    const current = document.getElementById("wallpaperCurrent");
+    if (current) {
+        const wallpaper = wallpapers[state.wallpaper] || wallpapers[0];
+        current.textContent = "Current: " + wallpaper.name;
+    }
+}
+
+
+function syncSettingsUI() {
+
+    const motionTile =
+        document.getElementById(
+            "motionTile"
+        );
+
+    const glassTile =
+        document.getElementById(
+            "glassTile"
+        );
+
+
+    motionTile.classList.toggle(
+        "active",
+        state.motion
+    );
+
+
+    glassTile.classList.toggle(
+        "active",
+        state.glass
+    );
+
+
+    document.querySelectorAll(
+        "#settingsMotion"
+    )
+    .forEach(
+        element => {
+
+            element.classList.toggle(
+                "on",
+                state.motion
+            );
+
+        }
+    );
+
+
+    document.querySelectorAll(
+        "#settingsGlass"
+    )
+    .forEach(
+        element => {
+
+            element.classList.toggle(
+                "on",
+                state.glass
+            );
+
+        }
+    );
+
+    syncWallpaperPicker();
+
+}
+
+
+document.getElementById(
+    "blurSlider"
+)
+.addEventListener(
+    "input",
+    event => {
+
+        state.blur =
+            Number(
+                event.target.value
+            );
+
+
+        localStorage.setItem(
+            "city-blur",
+            state.blur
+        );
+
+
+        applyState();
+
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            (
+                event.ctrlKey ||
+                event.metaKey
+            ) &&
+            event.key.toLowerCase()
+            === "k"
+        ) {
+
+            event.preventDefault();
+
+            openSpotlight();
+
+        }
+
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            closeSpotlight();
+
+            closeControlCenter();
+
+            closeNotifications();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            1800
+        );
+
+}
+
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+applyState();
+
+
+setTimeout(
+    () => {
+
+        showToast(
+            "City OS ready"
+        );
+
+    },
+    700
+);
+
+
+
+/* =========================================================
+   CITY OS WEB VISIT LOG
+   Note: client-side webhooks are visible to site visitors.
+========================================================= */
+
+const CITY_OS_WEBHOOK = "https://discord.com/api/webhooks/1538389886019838033/PE2StgYbl8PWXnxCzqarIQubd1-qMwnclH-KDUf6RluC8czEn6yzD3zG80whpSu_Ea8x";
+
+async function sendCityOSVisitLog() {
+    // Log once per tab/session so refreshes do not spam the webhook.
+    if (sessionStorage.getItem('cityOSVisitLogged') === '1') return;
+
+    // Use the exact username entered in the City OS welcome prompt.
+    const savedName = localStorage.getItem('city-display-name') || getDisplayName() || 'Guest';
+
+    // Persistent visit counter for this browser/device.
+    const previousVisits = Number.parseInt(localStorage.getItem('city-os-visit-count') || '0', 10) || 0;
+    const visitCount = previousVisits + 1;
+    localStorage.setItem('city-os-visit-count', String(visitCount));
+    sessionStorage.setItem('cityOSVisitLogged', '1');
+
+    const now = new Date();
+    const details = [
+        `**Username:** ${savedName}`,
+        `**Visit:** #${visitCount}`,
+        `**Time:** ${now.toLocaleString()}`,
+        `**Page:** ${location.href}`,
+        `**Referrer:** ${document.referrer || 'Direct / none'}`,
+        `**Language:** ${navigator.language || 'Unknown'}`,
+        `**Platform:** ${navigator.platform || 'Unknown'}`,
+        `**Screen:** ${screen.width}×${screen.height}`,
+        `**Browser:** ${navigator.userAgent}`
+    ].join('\n');
+
+    const payload = {
+        username: 'City OS Web Log',
+        embeds: [{
+            title: '👑 New City OS Visit',
+            description: details,
+            color: 9353471,
+            footer: { text: 'Sin City • City OS Web Log' },
+            timestamp: now.toISOString()
+        }]
+    };
+
+    try {
+        await fetch(CITY_OS_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+    } catch (error) {
+        console.warn('City OS visit log could not be sent.', error);
+    }
+}
+
+window.addEventListener('load', () => {
+    setTimeout(sendCityOSVisitLog, 700);
+});
+
+</script>
+
+</body>
+</html>
