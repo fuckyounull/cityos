@@ -1817,6 +1817,265 @@ a {
 
 
 
+
+/* =========================================================
+   STAFF APPLICATIONS
+========================================================= */
+
+.application-shell {
+    display: grid;
+    gap: 14px;
+}
+
+.application-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 15px;
+    border-radius: 19px;
+    background:
+        linear-gradient(135deg, rgba(var(--accent-rgb), .11), rgba(255,255,255,.035));
+    border: 1px solid rgba(var(--accent-rgb), .18);
+}
+
+.application-banner-copy b {
+    display: block;
+    font-size: 11px;
+}
+
+.application-banner-copy small {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 8px;
+    line-height: 1.55;
+}
+
+.application-open-pill {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(50,215,75,.11);
+    border: 1px solid rgba(50,215,75,.20);
+    color: #baffc5;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .45px;
+    text-transform: uppercase;
+}
+
+.application-open-pill::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #32d74b;
+    box-shadow: 0 0 10px rgba(50,215,75,.75);
+}
+
+.application-form {
+    display: grid;
+    gap: 12px;
+}
+
+.application-section {
+    padding: 16px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.075);
+}
+
+.application-section-title {
+    margin-bottom: 12px;
+}
+
+.application-section-title b {
+    display: block;
+    font-size: 11px;
+}
+
+.application-section-title small {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 8px;
+}
+
+.application-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.application-field {
+    display: grid;
+    gap: 6px;
+}
+
+.application-field.full {
+    grid-column: 1 / -1;
+}
+
+.application-field label {
+    color: rgba(255,255,255,.72);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: .15px;
+}
+
+.application-field input,
+.application-field select,
+.application-field textarea {
+    width: 100%;
+    outline: none;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 13px;
+    background: rgba(0,0,0,.18);
+    color: white;
+    padding: 10px 11px;
+    font: inherit;
+    font-size: 10px;
+    transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.application-field textarea {
+    min-height: 92px;
+    resize: vertical;
+    line-height: 1.55;
+}
+
+.application-field textarea.tall {
+    min-height: 120px;
+}
+
+.application-field input::placeholder,
+.application-field textarea::placeholder {
+    color: rgba(255,255,255,.28);
+}
+
+.application-field select option {
+    background: #11151d;
+    color: white;
+}
+
+.application-field input:focus,
+.application-field select:focus,
+.application-field textarea:focus {
+    border-color: rgba(var(--accent-rgb), .42);
+    background: rgba(0,0,0,.24);
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), .07);
+}
+
+.application-agree {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 12px 13px;
+    border-radius: 15px;
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.065);
+    cursor: pointer;
+}
+
+.application-agree input {
+    margin-top: 2px;
+    accent-color: var(--accent);
+}
+
+.application-agree span {
+    color: var(--muted);
+    font-size: 8px;
+    line-height: 1.55;
+}
+
+.application-submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 2px;
+}
+
+.application-submit-note {
+    max-width: 430px;
+    color: var(--muted);
+    font-size: 8px;
+    line-height: 1.5;
+}
+
+.application-submit {
+    flex: none;
+    border: 1px solid rgba(var(--accent-rgb), .24);
+    border-radius: 13px;
+    padding: 10px 14px;
+    background: rgba(var(--accent-rgb), .15);
+    color: white;
+    font-size: 9px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease, opacity .2s ease;
+}
+
+.application-submit:hover {
+    transform: translateY(-1px);
+    background: rgba(var(--accent-rgb), .23);
+}
+
+.application-submit:disabled {
+    opacity: .5;
+    cursor: wait;
+    transform: none;
+}
+
+.application-result {
+    display: none;
+    padding: 13px 14px;
+    border-radius: 16px;
+    font-size: 9px;
+    line-height: 1.55;
+}
+
+.application-result.show {
+    display: block;
+}
+
+.application-result.success {
+    color: #bdffc8;
+    background: rgba(50,215,75,.09);
+    border: 1px solid rgba(50,215,75,.18);
+}
+
+.application-result.error {
+    color: #ffc2c8;
+    background: rgba(255,69,88,.09);
+    border: 1px solid rgba(255,69,88,.18);
+}
+
+@media (max-width: 650px) {
+    .application-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .application-field.full {
+        grid-column: auto;
+    }
+
+    .application-banner,
+    .application-submit-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .application-submit {
+        width: 100%;
+    }
+}
+
+
 /* =========================================================
    UPDATES / COMMUNITY BOARD
 ========================================================= */
@@ -3199,6 +3458,24 @@ a {
             </button>
 
 
+
+            <button
+                class="desktop-app"
+                data-app="applications"
+                onclick="launchApp('applications')"
+            >
+
+                <div class="app-icon">
+                    <span class="app-emoji">✎</span>
+                </div>
+
+                <span class="app-label">
+                    Applications
+                </span>
+
+            </button>
+
+
             <button
                 class="desktop-app"
                 data-app="updates"
@@ -3454,6 +3731,19 @@ a {
 
         <p>
             City Suite, City Tweaks and City Spoofer are available in Projects.
+        </p>
+
+    </div>
+
+
+    <div class="notification">
+
+        <b>
+            Applications
+        </b>
+
+        <p>
+            Staff applications are open. Apply directly inside City OS.
         </p>
 
     </div>
@@ -4310,6 +4600,181 @@ const apps = {
     },
 
 
+
+    applications: {
+
+        title: "Applications",
+
+        subtitle: "Join the Sin City staff team",
+
+        icon: "✎",
+
+        html: `
+
+            <div class="app-hero">
+                <h2>Staff Applications</h2>
+                <p>
+                    Think you would be a good fit for the Sin City team?
+                    Fill this out carefully. Your application will be sent directly
+                    to staff for review.
+                </p>
+            </div>
+
+            <div class="application-shell">
+
+                <div class="application-banner">
+                    <div class="application-banner-copy">
+                        <b>Sin City Staff Applications</b>
+                        <small>Give complete answers. Low-effort or joke applications may be ignored.</small>
+                    </div>
+                    <span class="application-open-pill">Applications Open</span>
+                </div>
+
+                <form class="application-form" id="staffApplicationForm" onsubmit="submitStaffApplication(event)">
+
+                    <section class="application-section">
+                        <div class="application-section-title">
+                            <b>About You</b>
+                            <small>Basic information staff needs to identify and contact you.</small>
+                        </div>
+
+                        <div class="application-grid">
+
+                            <div class="application-field">
+                                <label for="appDisplayName">What should we call you?</label>
+                                <input id="appDisplayName" name="displayName" maxlength="40" required placeholder="Name / nickname">
+                            </div>
+
+                            <div class="application-field">
+                                <label for="appDiscord">Discord username</label>
+                                <input id="appDiscord" name="discord" maxlength="60" required placeholder="@username">
+                            </div>
+
+                            <div class="application-field">
+                                <label for="appAge">Age</label>
+                                <input id="appAge" name="age" type="number" min="13" max="99" required placeholder="18">
+                            </div>
+
+                            <div class="application-field">
+                                <label for="appTimezone">Timezone</label>
+                                <input id="appTimezone" name="timezone" maxlength="50" required placeholder="EST / CST / GMT...">
+                            </div>
+
+                            <div class="application-field">
+                                <label for="appRole">Role you are applying for</label>
+                                <select id="appRole" name="role" required>
+                                    <option value="" selected disabled>Select a role</option>
+                                    <option>Moderator</option>
+                                    <option>Support Staff</option>
+                                    <option>Community Staff</option>
+                                    <option>Event Staff</option>
+                                    <option>Other / Flexible</option>
+                                </select>
+                            </div>
+
+                            <div class="application-field">
+                                <label for="appAvailability">Typical availability</label>
+                                <input id="appAvailability" name="availability" maxlength="100" required placeholder="Example: Weekdays 5 PM–11 PM EST">
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <section class="application-section">
+                        <div class="application-section-title">
+                            <b>Your Experience</b>
+                            <small>Tell us what you can bring to the team.</small>
+                        </div>
+
+                        <div class="application-grid">
+
+                            <div class="application-field full">
+                                <label for="appExperience">Do you have previous staff or moderation experience?</label>
+                                <textarea id="appExperience" name="experience" maxlength="900" required placeholder="Tell us where, what your role was, and what you handled. If none, explain that too."></textarea>
+                            </div>
+
+                            <div class="application-field full">
+                                <label for="appWhy">Why do you want to join Sin City staff?</label>
+                                <textarea id="appWhy" name="why" maxlength="900" required placeholder="Why you want the role and why you think you fit the community."></textarea>
+                            </div>
+
+                            <div class="application-field full">
+                                <label for="appStrengths">What are your strongest qualities as a staff member?</label>
+                                <textarea id="appStrengths" name="strengths" maxlength="700" required placeholder="Communication, patience, activity, problem solving, etc."></textarea>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <section class="application-section">
+                        <div class="application-section-title">
+                            <b>Staff Scenarios</b>
+                            <small>There is not always one perfect answer. Explain how you would handle each situation.</small>
+                        </div>
+
+                        <div class="application-grid">
+
+                            <div class="application-field full">
+                                <label for="appScenarioOne">Two members are arguing and the chat is getting out of control. What do you do?</label>
+                                <textarea class="tall" id="appScenarioOne" name="scenarioOne" maxlength="1000" required placeholder="Walk us through what you would do and why."></textarea>
+                            </div>
+
+                            <div class="application-field full">
+                                <label for="appScenarioTwo">A friend breaks a server rule and asks you to ignore it. How do you handle it?</label>
+                                <textarea id="appScenarioTwo" name="scenarioTwo" maxlength="900" required placeholder="Explain your response."></textarea>
+                            </div>
+
+                            <div class="application-field full">
+                                <label for="appScenarioThree">You disagree with another staff member's decision. What do you do?</label>
+                                <textarea id="appScenarioThree" name="scenarioThree" maxlength="900" required placeholder="Explain how you would handle the disagreement professionally."></textarea>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <section class="application-section">
+                        <div class="application-section-title">
+                            <b>Final Questions</b>
+                            <small>Anything else we should know before reviewing your application?</small>
+                        </div>
+
+                        <div class="application-grid">
+                            <div class="application-field full">
+                                <label for="appExtra">Anything else you want to add?</label>
+                                <textarea id="appExtra" name="extra" maxlength="700" placeholder="Optional"></textarea>
+                            </div>
+                        </div>
+
+                        <label class="application-agree">
+                            <input id="appAgree" type="checkbox" required>
+                            <span>
+                                I confirm these answers are mine, I will follow Sin City rules and staff expectations,
+                                and I understand submitting an application does not guarantee acceptance.
+                            </span>
+                        </label>
+                    </section>
+
+                    <div class="application-result" id="applicationResult"></div>
+
+                    <div class="application-submit-row">
+                        <span class="application-submit-note">
+                            Your answers are sent to the Sin City staff review channel through Discord.
+                            Do not include passwords, private login information, or other sensitive information.
+                        </span>
+
+                        <button class="application-submit" id="applicationSubmit" type="submit">
+                            Submit Application →
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        `
+    },
+
+
     updates: {
 
         title: "Updates",
@@ -5157,6 +5622,14 @@ function launchApp(id) {
                 renderUpdates();
             }
 
+            if (id === "applications") {
+                const nameField = document.getElementById("appDisplayName");
+                if (nameField && !nameField.value) {
+                    nameField.value = getDisplayName();
+                }
+            }
+
+
             if (id === "cyberwatch") {
                 initCyberMap();
                 setTimeout(restoreCyberLocation, 140);
@@ -5659,6 +6132,150 @@ function closeNotifications() {
         "open"
     );
 
+}
+
+
+
+
+/* =========================================================
+   STAFF APPLICATION SUBMISSION
+========================================================= */
+
+const STAFF_APPLICATION_WEBHOOK =
+"https://discord.com/api/webhooks/1538756740122673252/UPYUd5v44g7_R-jHtiFfVh4OK1bnHxNlSyTGby9zUWDF2WD7M2tJelnKi8bCYzLHKVNK";
+
+function applicationValue(form, name, max = 1000) {
+    const field = form.elements[name];
+    return String(field?.value || "")
+        .trim()
+        .slice(0, max);
+}
+
+function applicationEmbedField(name, value, inline = false) {
+    return {
+        name: String(name).slice(0, 256),
+        value: value ? String(value).slice(0, 1024) : "Not provided",
+        inline
+    };
+}
+
+function setApplicationResult(message, type) {
+    const result = document.getElementById("applicationResult");
+    if (!result) return;
+
+    result.textContent = message;
+    result.className = "application-result show " + type;
+}
+
+async function submitStaffApplication(event) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const submit = document.getElementById("applicationSubmit");
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    const displayName = applicationValue(form, "displayName", 40);
+    const discord = applicationValue(form, "discord", 60);
+    const age = applicationValue(form, "age", 3);
+    const timezone = applicationValue(form, "timezone", 50);
+    const role = applicationValue(form, "role", 60);
+    const availability = applicationValue(form, "availability", 100);
+    const experience = applicationValue(form, "experience", 900);
+    const why = applicationValue(form, "why", 900);
+    const strengths = applicationValue(form, "strengths", 700);
+    const scenarioOne = applicationValue(form, "scenarioOne", 1000);
+    const scenarioTwo = applicationValue(form, "scenarioTwo", 900);
+    const scenarioThree = applicationValue(form, "scenarioThree", 900);
+    const extra = applicationValue(form, "extra", 700);
+
+    const submittedAt = new Date();
+    const applicationId =
+        "SC-" +
+        submittedAt.getFullYear() +
+        String(submittedAt.getMonth() + 1).padStart(2, "0") +
+        String(submittedAt.getDate()).padStart(2, "0") +
+        "-" +
+        Math.random().toString(36).slice(2, 7).toUpperCase();
+
+    const payload = {
+        username: "Sin City Applications",
+        embeds: [{
+            title: "📋 New Staff Application",
+            description:
+                `**Applicant:** ${displayName}\n` +
+                `**Discord:** ${discord}\n` +
+                `**Applied For:** ${role}\n` +
+                `**Application ID:** \`${applicationId}\``,
+            color: 9353471,
+            fields: [
+                applicationEmbedField("Age", age, true),
+                applicationEmbedField("Timezone", timezone, true),
+                applicationEmbedField("Availability", availability, false),
+                applicationEmbedField("Previous Experience", experience, false),
+                applicationEmbedField("Why Sin City?", why, false),
+                applicationEmbedField("Strongest Qualities", strengths, false),
+                applicationEmbedField("Scenario — Chat Argument", scenarioOne, false),
+                applicationEmbedField("Scenario — Friend Breaks a Rule", scenarioTwo, false),
+                applicationEmbedField("Scenario — Staff Disagreement", scenarioThree, false),
+                applicationEmbedField("Anything Else", extra || "Nothing else added.", false)
+            ],
+            footer: {
+                text: "Sin City • Staff Applications"
+            },
+            timestamp: submittedAt.toISOString()
+        }]
+    };
+
+    if (submit) {
+        submit.disabled = true;
+        submit.textContent = "Sending...";
+    }
+
+    setApplicationResult("Sending your application to Sin City staff...", "success");
+
+    try {
+        const response = await fetch(STAFF_APPLICATION_WEBHOOK, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            throw new Error("Discord returned status " + response.status);
+        }
+
+        setApplicationResult(
+            `Application sent successfully. Your application ID is ${applicationId}.`,
+            "success"
+        );
+
+        form.reset();
+
+        const nameField = document.getElementById("appDisplayName");
+        if (nameField) nameField.value = getDisplayName();
+
+        showToast("Application submitted");
+    } catch (error) {
+        console.warn("Staff application could not be sent.", error);
+
+        setApplicationResult(
+            "Your application could not be sent right now. Please check your connection and try again.",
+            "error"
+        );
+
+        showToast("Application failed");
+    } finally {
+        if (submit) {
+            submit.disabled = false;
+            submit.textContent = "Submit Application →";
+        }
+    }
 }
 
 
