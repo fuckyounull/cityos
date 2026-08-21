@@ -44,7 +44,6 @@ a{color:inherit;text-decoration:none}
 .mono{font-family:"IBM Plex Mono",monospace}
 .hidden{display:none!important}
 
-/* HEADER */
 .secure-header{
     position:sticky;top:0;z-index:1000;
     background:rgba(5,8,10,.97);
@@ -90,7 +89,6 @@ a{color:inherit;text-decoration:none}
 .header-user b{display:block;font:700 10px "IBM Plex Mono",monospace}
 .header-user small{display:block;margin-top:3px;color:var(--green-dim);font:600 6px "IBM Plex Mono",monospace;letter-spacing:1px}
 
-/* NAV */
 .database-nav{
     display:flex;overflow:auto;padding:0 18px;border-top:1px solid rgba(255,255,255,.025);
 }
@@ -104,7 +102,6 @@ a{color:inherit;text-decoration:none}
 .nav-btn:first-child{border-left:1px solid rgba(255,255,255,.04)}
 .nav-btn:hover,.nav-btn.active{background:rgba(139,255,175,.055);color:var(--green)}
 
-/* LAYOUT */
 .database-shell{max-width:1540px;margin:0 auto;padding:20px 20px 54px}
 .section{display:none}
 .section.active{display:block}
@@ -160,7 +157,6 @@ a{color:inherit;text-decoration:none}
 .action:hover{background:rgba(139,255,175,.10)}
 .action.danger{border-color:rgba(255,104,104,.20);color:#ff9c9c;background:rgba(255,104,104,.04)}
 
-/* OVERVIEW */
 .intel-table{width:100%;border-collapse:collapse}
 .intel-table th,.intel-table td{padding:9px 10px;border-bottom:1px solid rgba(139,255,175,.08);text-align:left}
 .intel-table th{color:rgba(139,255,175,.48);font:700 6px "IBM Plex Mono",monospace;letter-spacing:.8px;text-transform:uppercase}
@@ -172,7 +168,6 @@ a{color:inherit;text-decoration:none}
 .activity-copy b{display:block;font-size:9px}
 .activity-copy small{display:block;margin-top:3px;color:var(--muted);font-size:7px}
 
-/* PROJECT DOSSIER */
 .project-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:10px}
 .preview-frame{border:1px solid var(--line);background:#070b0e;overflow:hidden}
 .preview-frame img{display:block;width:100%;max-height:440px;object-fit:cover;object-position:top}
@@ -182,7 +177,6 @@ a{color:inherit;text-decoration:none}
 .dossier-item p{margin-top:5px;color:var(--muted);font-size:8px;line-height:1.55}
 .dossier-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 
-/* CYBERWATCH */
 .cyber-map{height:390px;background:#071015}
 .leaflet-container{font-family:"IBM Plex Mono",monospace}
 .leaflet-tile-pane{filter:grayscale(1) brightness(.45) contrast(1.25) hue-rotate(65deg)}
@@ -204,7 +198,6 @@ a{color:inherit;text-decoration:none}
 .incident small{display:block;margin-top:3px;color:var(--muted);font-size:7px}
 .incident p{margin-top:7px;color:rgba(226,239,230,.68);font-size:8px;line-height:1.55}
 
-/* 3RD EYE */
 .radar-wrap{display:grid;grid-template-columns:280px 1fr;gap:10px}
 .radar{
     position:relative;aspect-ratio:1;border:1px solid var(--line);
@@ -226,7 +219,6 @@ a{color:inherit;text-decoration:none}
 .check-row b{display:block;font-size:9px}
 .check-row small{display:block;margin-top:3px;color:var(--muted);font-size:7px;line-height:1.45}
 
-/* APPLICATION FORM */
 .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 .field{display:grid;gap:5px}
 .field.full{grid-column:1/-1}
@@ -243,7 +235,6 @@ a{color:inherit;text-decoration:none}
 .form-result.success{color:var(--green);border-color:rgba(139,255,175,.25);background:rgba(139,255,175,.035)}
 .form-result.error{color:#ff9c9c;border-color:rgba(255,104,104,.25);background:rgba(255,104,104,.035)}
 
-/* STAFF CLEARANCE */
 .clearance-lock{max-width:720px;margin:0 auto;border:1px solid var(--line);background:#0a0f13;padding:18px}
 .glyph-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:14px 0}
 .glyph{height:62px;border:1px solid rgba(139,255,175,.10);background:#0f161c;color:var(--text);font-size:20px;cursor:pointer}
@@ -255,7 +246,6 @@ a{color:inherit;text-decoration:none}
 .staff-tool b{font:700 8px "IBM Plex Mono",monospace;text-transform:uppercase}
 .staff-tool p{margin-top:5px;color:var(--muted);font-size:7px;line-height:1.5}
 
-/* UPDATES */
 .update-composer{display:grid;gap:8px}
 .update-composer textarea{min-height:95px;width:100%;border:1px solid rgba(139,255,175,.12);background:#070b0e;color:var(--text);padding:10px;resize:vertical;font:500 9px "IBM Plex Mono",monospace}
 .update-feed{display:grid;gap:7px;margin-top:10px}
@@ -265,7 +255,6 @@ a{color:inherit;text-decoration:none}
 .update-post small{color:var(--muted);font-size:7px}
 .update-post p{font-size:9px;line-height:1.55;white-space:pre-wrap}
 
-/* SETTINGS */
 .setting-row{display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(139,255,175,.08)}
 .setting-row:last-child{border-bottom:0}
 .setting-row b{font:700 8px "IBM Plex Mono",monospace;text-transform:uppercase}
@@ -273,10 +262,8 @@ a{color:inherit;text-decoration:none}
 .theme-buttons{display:flex;gap:6px;flex-wrap:wrap}
 .theme-btn{width:28px;height:28px;border:1px solid rgba(255,255,255,.15);cursor:pointer}
 
-/* FOOTER */
 .db-footer{margin-top:18px;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;color:rgba(139,255,175,.25);font:600 6px "IBM Plex Mono",monospace;letter-spacing:1px;text-transform:uppercase}
 
-/* TOAST */
 .toast{position:fixed;right:14px;bottom:14px;z-index:2000;opacity:0;transform:translateY(10px);pointer-events:none;padding:9px 11px;border:1px solid var(--line);background:#0a0f13;color:var(--green);font:700 7px "IBM Plex Mono",monospace;transition:.2s}
 .toast.show{opacity:1;transform:translateY(0)}
 
@@ -298,10 +285,6 @@ a{color:inherit;text-decoration:none}
     .staff-tools{grid-template-columns:1fr}
     .section-head{align-items:flex-start;flex-direction:column}
 }
-
-/* =========================================================
-   SECURE IDENTITY ENROLLMENT
-========================================================= */
 
 body.identity-locked {
     overflow: hidden;
@@ -514,7 +497,6 @@ body.identity-locked .database-shell {
     background: rgba(139,255,175,.14);
 }
 
-/* Persistent operator avatar in header */
 .header-identity {
     display: flex;
     align-items: center;
@@ -556,7 +538,6 @@ body.identity-locked .database-shell {
     border-left: 0;
 }
 
-/* Operator record card */
 .operator-record {
     display: flex;
     align-items: center;
@@ -617,11 +598,6 @@ body.identity-locked .database-shell {
         height: 30px;
     }
 }
-
-
-/* =========================================================
-   SERVICE STATUS / SIGNAL HEALTH
-========================================================= */
 
 .status-summary {
     display: grid;
@@ -780,10 +756,6 @@ body.identity-locked .database-shell {
     }
 }
 
-
-/* =========================================================
-   CASE FILES // PUBLIC RECORD TERMINAL
-========================================================= */
 .case-terminal{display:grid;gap:10px}
 .case-command-bar{display:grid;grid-template-columns:minmax(220px,1fr) 180px auto;gap:7px}
 .case-input{width:100%;height:38px;border:1px solid rgba(139,255,175,.14);outline:0;background:#070b0e;color:var(--text);padding:0 10px;font:600 8px "IBM Plex Mono",monospace}
@@ -979,7 +951,6 @@ body.identity-locked .database-shell {
             </div>
         </div>
 
-
         <div class="panel">
             <div class="panel-head"><b>Active Operator Record</b><small>LOCAL IDENTITY</small></div>
             <div class="panel-body">
@@ -1008,7 +979,6 @@ body.identity-locked .database-shell {
         </div>
     </div>
 </section>
-
 
 <section class="section" id="section-status">
     <div class="section-head">
@@ -1174,7 +1144,6 @@ body.identity-locked .database-shell {
     </div>
 </section>
 
-
 <section class="section" id="section-casefiles">
     <div class="section-head">
         <div>
@@ -1228,7 +1197,6 @@ body.identity-locked .database-shell {
         </div>
     </div>
 </section>
-
 
 <section class="section" id="section-thirdeye">
     <div class="section-head">
@@ -1416,8 +1384,6 @@ const PROFILE_COMPLETE_KEY = "city-profile-complete";
 const VISIT_COUNT_KEY = "city-os-visit-count";
 const UPDATE_KEY = "city-os-updates-v2";
 
-/* Storage helpers keep the page working in sandboxed previews where
-   localStorage/sessionStorage can be blocked by the browser. */
 const cityMemoryStorage = new Map();
 const cityMemorySession = new Map();
 
@@ -1468,7 +1434,6 @@ function safeSessionSet(key, value) {
         cityMemorySession.set(key, stringValue);
     }
 }
-
 
 function esc(value) {
     return String(value ?? "")
@@ -1538,8 +1503,6 @@ function setAccent(color,rgb) {
     toast("ACCENT UPDATED");
 }
 
-
-/* IDENTITY ENROLLMENT */
 const identityGate = document.getElementById("identityGate");
 const identityNameInput = document.getElementById("identityNameInput");
 const identityAvatarInput = document.getElementById("identityAvatarInput");
@@ -1646,7 +1609,6 @@ function ensureIdentityEnrollment() {
     return true;
 }
 
-
 (function restoreAccent(){
     const c=safeStorageGet("city-db-accent");
     const r=safeStorageGet("city-db-accent-rgb");
@@ -1684,7 +1646,6 @@ function updateClock(){
 }
 updateClock(); setInterval(updateClock,1000);
 
-/* WEBLOG */
 function dataUrlToBlob(dataUrl) {
     try {
         const parts = String(dataUrl).split(",");
@@ -1870,7 +1831,6 @@ async function sendVisitLog(){
     }
 }
 
-/* APPLICATION */
 function fv(form,name,max=1000){return String(form.elements[name]?.value||"").trim().slice(0,max)}
 function setAppResult(msg,type){
     const el=document.getElementById("applicationResult");
@@ -2048,7 +2008,6 @@ document.getElementById("staffApplicationForm").addEventListener("submit",async 
     }finally{btn.disabled=false;btn.textContent="TRANSMIT CANDIDATE RECORD"}
 });
 
-/* STAFF LOCK */
 let staffSequence=[];
 const staffPattern=["crown","eye","moon","shield","star","diamond"];
 
@@ -2084,7 +2043,6 @@ async function copyStaffReply(type){
     try{await navigator.clipboard.writeText(text);toast("STAFF REPLY COPIED")}catch{toast("CLIPBOARD UNAVAILABLE")}
 }
 
-/* UPDATES */
 function getUpdates(){
     try{const x=JSON.parse(safeStorageGet(UPDATE_KEY)||"[]");if(Array.isArray(x)&&x.length)return x}catch{}
     const starter=[{id:Date.now(),author:"Sin City",text:"City Tweaks 2.1 Premium just launched.",createdAt:new Date().toISOString(),pinned:true}];
@@ -2106,7 +2064,6 @@ function publishUpdate(){
 }
 function clearUpdates(){safeStorageRemove(UPDATE_KEY);renderUpdates();toast("LOCAL UPDATES RESET")}
 
-/* CASE FILES */
 const FBI_WANTED_API = "https://api.fbi.gov/wanted/v1/list";
 const CASE_FALLBACK_RECORDS = [{"uid": "snapshot-robert-william-fisher", "title": "ROBERT WILLIAM FISHER", "classification": "wanted", "subjects": ["Violent Crimes - Murders"], "field_offices": ["Phoenix"], "status": "Wanted", "description": "Unlawful Flight to Avoid Prosecution - First Degree Murder (3 Counts), Arson of an Occupied Structure.", "details": "The FBI public record states that Fisher is wanted in connection with the deaths of his wife and two children and an occupied-structure arson in Scottsdale, Arizona, in April 2001.", "caution": "FBI public notice states he should be considered armed and extremely dangerous.", "reward_text": "", "sex": "Male", "race": "White", "hair": "Brown", "eyes": "Blue", "nationality": "American", "dates_of_birth_used": ["April 13, 1961"], "place_of_birth": "Brooklyn, New York", "url": "https://www.fbi.gov/wanted/murders/robert-william-fisher", "image": ""}, {"uid": "snapshot-mona-renee-vallo", "title": "MONA RENEE VALLO", "classification": "seeking", "subjects": ["Seeking Information"], "field_offices": ["Albuquerque"], "status": "Seeking Information", "description": "Deceased individual; Laguna Pueblo, New Mexico; March 9, 2022.", "details": "FBI public information says Vallo was found on U.S. Route 66 / New Mexico Highway 124 in Laguna Pueblo, New Mexico, with injuries consistent with a hit-and-run crash.", "reward_text": "The FBI public record lists a reward of up to $25,000 for information leading to the arrest and conviction of the person or persons responsible for her death.", "sex": "Female", "race": "Native American", "hair": "Black", "eyes": "Brown", "dates_of_birth_used": ["July 24, 1965"], "url": "https://www.fbi.gov/wanted/seeking-info/mona-renee-vallo", "image": ""}, {"uid": "snapshot-ameera-deadrick", "title": "AMEERA DEADRICK - HOUSTON, TEXAS", "classification": "missing", "subjects": ["ViCAP Missing Persons"], "field_offices": ["ViCAP"], "status": "Missing", "description": "Missing person record; possibly in Houston, Texas.", "details": "The FBI ViCAP public record says Ameera Deadrick was last seen in a Facebook video around April 1, 2016, and includes information supplied by her biological father about later custody circumstances.", "sex": "Female", "race": "Black", "hair": "Black", "url": "https://www.fbi.gov/wanted/vicap/missing-persons/ameera-deadrick---houston-texas", "image": ""}, {"uid": "snapshot-nancy-guthrie", "title": "NANCY GUTHRIE", "classification": "missing", "subjects": ["Kidnappings & Missing Persons"], "field_offices": ["Phoenix"], "status": "Missing", "description": "Missing vulnerable adult; Tucson, Arizona.", "details": "FBI Phoenix reported that Nancy Guthrie was last seen at her residence in the Catalina Foothills area of Tucson on January 31, 2026.", "reward_text": "FBI Phoenix announced a reward of up to $50,000 for information leading to her recovery and/or the arrest and conviction of anyone involved in her disappearance.", "url": "https://www.fbi.gov/wanted/kidnap/nancy-guthrie", "image": ""}, {"uid": "snapshot-casino-robbery-nm", "title": "CASINO ROBBERY - NEW MEXICO", "classification": "seeking", "subjects": ["Seeking Information"], "field_offices": ["Albuquerque"], "status": "Seeking Information", "description": "Public FBI seeking-information record associated with the Albuquerque Field Office.", "details": "This record appears in the FBI Albuquerque public Wanted and Missing Persons listing.", "url": "https://www.fbi.gov/wanted/seeking-info", "image": ""}, {"uid": "snapshot-jane-doe-dorchester", "title": "JANE DOE - DORCHESTER, MASSACHUSETTS", "classification": "seeking", "subjects": ["ViCAP Unidentified Persons"], "field_offices": ["ViCAP"], "status": "Unidentified Person", "description": "Public ViCAP unidentified-person record.", "details": "This case appears in the FBI ViCAP public listing of unidentified persons.", "url": "https://www.fbi.gov/wanted/vicap", "image": ""}, {"uid": "snapshot-keri-cefarelli", "title": "KERI ANNE CEFARELLI - FORT MYERS, FLORIDA", "classification": "missing", "subjects": ["ViCAP Missing Persons"], "field_offices": ["ViCAP"], "status": "Missing", "description": "Public ViCAP missing-person record associated with Fort Myers, Florida.", "details": "This case appears in the FBI ViCAP public missing-person listing.", "url": "https://www.fbi.gov/wanted/vicap", "image": ""}, {"uid": "snapshot-robert-fisher-listing", "title": "ROBERT WILLIAM FISHER", "classification": "wanted", "subjects": ["Violent Crimes - Murders"], "field_offices": ["Phoenix"], "status": "Wanted", "description": "Public FBI murder fugitive listing.", "details": "This record appears in the FBI public fugitives and Phoenix Field Office listings.", "url": "https://www.fbi.gov/wanted/murders/robert-william-fisher", "image": ""}];
 
@@ -2274,7 +2231,7 @@ function initCaseFiles(){
     applyCaseDataset([...CASE_FALLBACK_RECORDS],"PUBLIC SNAPSHOT");
     tryLiveCaseSync();
 }
-/* TOAST */
+
 let toastTimer;
 function toast(msg){
     const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
@@ -2291,6 +2248,33 @@ window.addEventListener("load", () => {
         setTimeout(sendVisitLog, 500);
     }
 });
+</script>
+
+<script data-devtools-guard>
+(() => {
+  const lock = () => {
+    document.documentElement.innerHTML = '<body style="margin:0;background:#05080a;color:#eaf4ed;display:grid;place-items:center;height:100vh;font-family:system-ui"><div>Developer tools are not supported on this page.</div></body>';
+  };
+
+  document.addEventListener('contextmenu', event => event.preventDefault());
+  document.addEventListener('keydown', event => {
+    const key = event.key.toLowerCase();
+    if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && ['i','j','c'].includes(key)) || (event.ctrlKey && key === 'u')) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }, true);
+
+  let tripped = false;
+  setInterval(() => {
+    const widthGap = Math.abs(window.outerWidth - window.innerWidth);
+    const heightGap = Math.abs(window.outerHeight - window.innerHeight);
+    if (!tripped && (widthGap > 180 || heightGap > 180)) {
+      tripped = true;
+      lock();
+    }
+  }, 700);
+})();
 </script>
 </body>
 </html>
