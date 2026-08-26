@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#09060f">
+
+<title>404 // SIN CITY</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --purple: #9d4dff;
+        --purple2: #6d1fff;
+        --light-purple: #d7b8ff;
+        --black: #050507;
+        --panel: rgba(12, 8, 18, .72);
+        --border: rgba(190, 145, 255, .22);
+        --text: #f5f1ff;
+        --muted: #8e859c;
+    }
+
+    html, body {
+        width: 100%;
+        min-height: 100%;
+        overflow: hidden;
+        background: #050507;
+        color: var(--text);
+        font-family: Inter, Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* BACKGROUND */
+    .background {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        z-index: 0;
+        background:
+            radial-gradient(circle at 50% 35%, rgba(118, 37, 190, .18), transparent 30%),
+            radial-gradient(circle at 20% 90%, rgba(87, 24, 155, .15), transparent 30%),
+            linear-gradient(180deg, #08060c 0%, #030304 100%);
+    }
+
+    .grid {
+        position: absolute;
+        inset: -50%;
+        width: 200%;
+        height: 200%;
+        background-image:
+            linear-gradient(rgba(155, 84, 255, .04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(155, 84, 255, .04) 1px, transparent 1px);
+        background-size: 55px 55px;
+        transform: perspective(500px) rotateX(62deg) translateY(10%);
+        animation: gridMove 12s linear infinite;
+        mask-image: linear-gradient(to bottom, transparent 5%, black 50%, transparent 85%);
+    }
+
+    @keyframes gridMove {
+        from { transform: perspective(500px) rotateX(62deg) translateY(10%) translateX(0); }
+        to   { transform: perspective(500px) rotateX(62deg) translateY(10%) translateX(55px); }
+    }
+
+    .orb {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        filter: blur(110px);
+        background: rgba(123, 40, 210, .15);
+        animation: float 9s ease-in-out infinite alternate;
+    }
+
+    .orb.one {
+        top: -220px;
+        left: -150px;
+    }
+
+    .orb.two {
+        right: -200px;
+        bottom: -250px;
+        animation-delay: -4s;
+    }
+
+    @keyframes float {
+        to {
+            transform: translate(80px, 60px) scale(1.15);
+        }
+    }
+
+    #particles {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* CURSOR LIGHT */
+    .cursor-light {
+        position: fixed;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(
+            circle,
+            rgba(147, 73, 255, .12),
+            rgba(147, 73, 255, .03) 35%,
+            transparent 68%
+        );
+    }
+
+    /* MAIN */
+    .page {
+        width: min(950px, calc(100% - 32px));
+        position: relative;
+        z-index: 5;
+        text-align: center;
+    }
+
+    .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 24px;
+        color: #aaa1b5;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+    }
+
+    .brand-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--purple);
+        box-shadow: 0 0 15px var(--purple);
+        animation: blink 1.4s infinite;
+    }
+
+    @keyframes blink {
+        50% { opacity: .3; }
+    }
+
+    /* 404 */
+    .error-wrap {
+        position: relative;
+        display: inline-block;
+    }
+
+    .error {
+        position: relative;
+        font-size: clamp(120px, 23vw, 270px);
+        line-height: .8;
+        font-weight: 900;
+        letter-spacing: -18px;
+        user-select: none;
+
+        background:
+            linear-gradient(
+                180deg,
+                #ffffff 0%,
+                #d6d1dc 18%,
+                #77717f 42%,
+                #ffffff 52%,
+                #6d6673 72%,
+                #f4f0f8 100%
+            );
+
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+
+        filter:
+            drop-shadow(0 0 1px white)
+            drop-shadow(0 0 18px rgba(155, 71, 255, .24));
+    }
+
+    .error::before,
+    .error::after {
+        content: "404";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0;
+    }
+
+    .error::before {
+        color: #b855ff;
+        -webkit-text-fill-color: #b855ff;
+        clip-path: inset(20% 0 55% 0);
+    }
+
+    .error::after {
+        color: #ffffff;
+        -webkit-text-fill-color: #ffffff;
+        clip-path: inset(63% 0 15% 0);
+    }
+
+    .error.glitch::before {
+        opacity: .7;
+        animation: glitch1 .18s steps(2) 2;
+    }
+
+    .error.glitch::after {
+        opacity: .5;
+        animation: glitch2 .18s steps(2) 2;
+    }
+
+    @keyframes glitch1 {
+        0%   { transform: translate(-12px, 0); }
+        25%  { transform: translate(8px, -3px); }
+        50%  { transform: translate(-5px, 2px); }
+        100% { transform: translate(0); }
+    }
+
+    @keyframes glitch2 {
+        0%   { transform: translate(10px, 2px); }
+        30%  { transform: translate(-8px, 0); }
+        70%  { transform: translate(6px, -2px); }
+        100% { transform: translate(0); }
+    }
+
+    .line {
+        width: min(520px, 80%);
+        height: 1px;
+        margin: 35px auto 25px;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(183, 129, 255, .7),
+            transparent
+        );
+        box-shadow: 0 0 14px rgba(158, 79, 255, .3);
+    }
+
+    h1 {
+        font-size: clamp(24px, 4vw, 42px);
+        text-transform: uppercase;
+        letter-spacing: 7px;
+        font-weight: 800;
+        margin-bottom: 14px;
+    }
+
+    .description {
+        max-width: 620px;
+        margin: auto;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .purple {
+        color: #bc7cff;
+    }
+
+    /* TERMINAL */
+    .terminal {
+        width: min(620px, 100%);
+        margin: 30px auto 0;
+        text-align: left;
+        border: 1px solid var(--border);
+        background: rgba(7, 5, 10, .72);
+        backdrop-filter: blur(20px);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow:
+            0 20px 70px rgba(0,0,0,.45),
+            inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    .terminal-top {
+        height: 38px;
+        padding: 0 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+
+    .terminal-title {
+        color: #665f70;
+        font-family: monospace;
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+
+    .terminal-dots {
+        display: flex;
+        gap: 6px;
+    }
+
+    .terminal-dots span {
+        width: 6px;
+        height: 6px;
+        background: #443d49;
+        border-radius: 50%;
+    }
+
+    .terminal-body {
+        padding: 16px 18px;
+        font-family: Consolas, monospace;
+        font-size: 11px;
+        line-height: 1.8;
+        color: #766e80;
+    }
+
+    .terminal-body .good {
+        color: #ad74f2;
+    }
+
+    .terminal-body .bad {
+        color: #d8d1df;
+    }
+
+    .cursor {
+        display: inline-block;
+        width: 6px;
+        height: 12px;
+        margin-left: 3px;
+        background: #9d4dff;
+        vertical-align: middle;
+        animation: cursorBlink .8s infinite;
+    }
+
+    @keyframes cursorBlink {
+        50% { opacity: 0; }
+    }
+
+    /* BUTTONS */
+    .buttons {
+        margin-top: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        min-width: 180px;
+        height: 48px;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,.08);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        color: white;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: .25s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::before {
+        content: "";
+        position: absolute;
+        width: 70px;
+        height: 200%;
+        top: -50%;
+        left: -100px;
+        transform: rotate(25deg);
+        background: rgba(255,255,255,.12);
+        transition: .55s;
+    }
+
+    .btn:hover::before {
+        left: calc(100% + 70px);
+    }
+
+    .btn.primary {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(161, 81, 255, .95),
+                rgba(91, 26, 166, .95)
+            );
+        border-color: rgba(196, 142, 255, .35);
+        box-shadow: 0 8px 35px rgba(112, 36, 203, .22);
+    }
+
+    .btn.secondary {
+        background: rgba(255,255,255,.035);
+        color: #aaa1b3;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        border-color: rgba(189, 127, 255, .5);
+        box-shadow: 0 12px 40px rgba(111, 38, 193, .2);
+    }
+
+    .redirect {
+        margin-top: 19px;
+        font-family: monospace;
+        font-size: 10px;
+        letter-spacing: 1px;
+        color: #514a59;
+    }
+
+    .redirect span {
+        color: #9860d7;
+    }
+
+    .footer {
+        position: fixed;
+        bottom: 18px;
+        left: 0;
+        right: 0;
+        z-index: 5;
+        text-align: center;
+        color: #353039;
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+    }
+
+    /* SCANLINES */
+    .scanlines {
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+        opacity: .12;
+        background:
+            repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 3px,
+                rgba(255,255,255,.025) 4px
+            );
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+        .error {
+            letter-spacing: -10px;
+        }
+
+        .page {
+            width: calc(100% - 24px);
+        }
+
+        h1 {
+            letter-spacing: 4px;
+        }
+
+        .terminal {
+            margin-top: 22px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+
+        .footer {
+            display: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: .01ms !important;
+            animation-iteration-count: 1 !important;
+            scroll-behavior: auto !important;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="background">
+    <div class="grid"></div>
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+</div>
+
+<canvas id="particles"></canvas>
+<div class="cursor-light" id="cursorLight"></div>
+<div class="scanlines"></div>
+
+<main class="page">
+
+    <div class="brand">
+        <span class="brand-dot"></span>
+        SIN CITY // SYSTEM
+    </div>
+
+    <div class="error-wrap">
+        <div class="error" id="error404">404</div>
+    </div>
+
+    <div class="line"></div>
+
+    <h1>LOST IN THE <span class="purple">CITY</span></h1>
+
+    <p class="description">
+        The page you're looking for doesn't exist, got moved,
+        or disappeared somewhere in Sin City.
+    </p>
+
+    <div class="terminal">
+        <div class="terminal-top">
+            <div class="terminal-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="terminal-title">CITY://ERROR_LOG</div>
+        </div>
+
+        <div class="terminal-body" id="terminal">
+            <div>&gt; checking requested route...</div>
+            <div>&gt; locating page...</div>
+            <div class="bad">&gt; ERROR: PAGE_NOT_FOUND</div>
+            <div>&gt; status code: <span class="good">404</span></div>
+            <div>&gt; initiating return protocol<span class="cursor"></span></div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <a href="/" class="btn primary">
+            ← Return Home
+        </a>
+
+        <a
+            href="https://discord.gg/FNj7hB4K4s"
+            class="btn secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Enter Discord ↗
+        </a>
+    </div>
+
+    <div class="redirect">
+        AUTO RETURN IN <span id="countdown">15</span> SECONDS
+    </div>
+
+</main>
+
+<div class="footer">
+    SIN CITY © 2026 // CITY.EXE
+</div>
+
+<script>
+    /* -----------------------------------
+       CURSOR GLOW
+    ----------------------------------- */
+
+    const cursorLight = document.getElementById("cursorLight");
+
+    document.addEventListener("mousemove", (e) => {
+        cursorLight.style.left = e.clientX + "px";
+        cursorLight.style.top = e.clientY + "px";
+    });
+
+
+    /* -----------------------------------
+       RANDOM 404 GLITCH
+    ----------------------------------- */
+
+    const error404 = document.getElementById("error404");
+
+    function triggerGlitch() {
+        error404.classList.add("glitch");
+
+        setTimeout(() => {
+            error404.classList.remove("glitch");
+        }, 400);
+
+        const next = 1800 + Math.random() * 3500;
+        setTimeout(triggerGlitch, next);
+    }
+
+    setTimeout(triggerGlitch, 1200);
+
+
+    /* -----------------------------------
+       PARTICLES
+    ----------------------------------- */
+
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+
+    let width;
+    let height;
+    let particles = [];
+
+    function resizeCanvas() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+        constructor() {
+            this.reset(true);
+        }
+
+        reset(initial = false) {
+            this.x = Math.random() * width;
+            this.y = initial
+                ? Math.random() * height
+                : height + 10;
+
+            this.size = Math.random() * 1.4 + .2;
+            this.speedY = Math.random() * .35 + .08;
+            this.speedX = (Math.random() - .5) * .15;
+            this.opacity = Math.random() * .35 + .05;
+        }
+
+        update() {
+            this.y -= this.speedY;
+            this.x += this.speedX;
+
+            if (this.y < -10) {
+                this.reset();
+            }
+        }
+
+        draw() {
+            ctx.beginPath();
+
+            ctx.fillStyle =
+                `rgba(174, 110, 255, ${this.opacity})`;
+
+            ctx.arc(
+                this.x,
+                this.y,
+                this.size,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+        }
+    }
+
+    function createParticles() {
+        particles = [];
+
+        const count =
+            Math.min(
+                90,
+                Math.floor((width * height) / 18000)
+            );
+
+        for (let i = 0; i < count; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    createParticles();
+
+    window.addEventListener("resize", createParticles);
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, width, height);
+
+        particles.forEach((particle) => {
+            particle.update();
+            particle.draw();
+        });
+
+        requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
+
+
+    /* -----------------------------------
+       COUNTDOWN
+    ----------------------------------- */
+
+    const countdownElement =
+        document.getElementById("countdown");
+
+    let countdown = 15;
+
+    const timer = setInterval(() => {
+        countdown--;
+
+        countdownElement.textContent = countdown;
+
+        if (countdown <= 0) {
+            clearInterval(timer);
+            window.location.href = "/";
+        }
+    }, 1000);
+
+
+    /* -----------------------------------
+       LITTLE CONSOLE EASTER EGG
+    ----------------------------------- */
+
+    console.log(
+        "%c SIN CITY ",
+        "background:#7b2bd1;color:white;padding:8px 14px;font-weight:bold;"
+    );
+
+    console.log(
+        "%c You wandered somewhere you shouldn't have.",
+        "color:#a970e8;"
+    );
+</script>
+
+</body>
+</html>
