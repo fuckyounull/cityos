@@ -42,9 +42,9 @@ a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}img{displ
 .statusDot{position:absolute;right:2px;bottom:5px;z-index:5;width:18px;height:18px;border:4px solid #060008;border-radius:50%;background:var(--status);box-shadow:0 0 16px var(--status)}
 
 .nameRow{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;min-height:60px}
-.chromeName{margin:0;font:900 clamp(46px,11vw,70px)/.92 Unbounded,sans-serif;letter-spacing:-.075em;background:
+.chromeName{margin:0;font:900 clamp(46px,11vw,70px)/1.06 Unbounded,sans-serif;letter-spacing:-.06em;padding:0 .08em .10em;paint-order:stroke fill;background:
   linear-gradient(180deg,#fff 0%,#fff 8%,#83838b 13%,#fdfdfd 20%,#37373e 29%,#fff 38%,#919199 45%,#fff 53%,#202027 62%,#f8f8fa 71%,#777780 78%,#fff 86%,#e8e8eb 93%,#74747c 100%);
-  background-size:100% 230%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:.55px rgba(255,255,255,.74);filter:drop-shadow(0 1px 0 #fff) drop-shadow(0 3px 2px rgba(0,0,0,.8)) drop-shadow(0 0 11px rgba(255,255,255,.46)) drop-shadow(0 0 28px rgba(220,59,255,.50));animation:chromeFlow 3.3s ease-in-out infinite alternate}
+  background-size:100% 230%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:.42px rgba(255,255,255,.72);filter:drop-shadow(0 1px 0 #fff) drop-shadow(0 3px 2px rgba(0,0,0,.8)) drop-shadow(0 0 11px rgba(255,255,255,.46)) drop-shadow(0 0 28px rgba(220,59,255,.50));animation:chromeFlow 3.3s ease-in-out infinite alternate}
 @keyframes chromeFlow{to{background-position:0 100%}}
 .badges{display:flex;align-items:center;gap:5px;min-height:22px}
 .badge{width:21px;height:21px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,255,255,.20));transition:.18s ease}
@@ -74,7 +74,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}img{displ
 .music button{width:31px;height:31px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:transparent;cursor:pointer;font-size:10px}.music button:hover{border-color:#e46dff;box-shadow:0 0 16px rgba(220,57,255,.25)}
 .footer{margin-top:20px;color:rgba(255,255,255,.23);font:500 8px DM Mono,monospace;letter-spacing:.12em;text-transform:uppercase}.footer button{padding:0;border:0;background:none;color:inherit;cursor:pointer}.footer button:hover{color:rgba(255,255,255,.7)}
 
-.enterGate{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:#040006;transition:opacity .35s ease,visibility .35s ease}.enterGate.off{opacity:0;visibility:hidden;pointer-events:none}.enterStage{text-align:center}.enterLogo{font:900 clamp(50px,15vw,88px)/1 Unbounded,sans-serif;letter-spacing:-.075em;background:linear-gradient(180deg,#fff,#777 20%,#fff 37%,#2c2c31 55%,#fff 72%,#777 87%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(220,54,255,.45));margin-bottom:20px}.enterBtn{position:relative;padding:12px 19px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.025);cursor:pointer;font:600 9px DM Mono,monospace;letter-spacing:.14em;text-transform:uppercase;box-shadow:0 0 28px rgba(214,49,255,.18)}.enterBtn:hover{border-color:#ef9aff;box-shadow:0 0 36px rgba(214,49,255,.4)}
+.enterGate{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:#040006;transition:opacity .35s ease,visibility .35s ease}.enterGate.off{opacity:0;visibility:hidden;pointer-events:none}.enterStage{text-align:center}.enterLogo{font:900 clamp(50px,15vw,88px)/1.06 Unbounded,sans-serif;letter-spacing:-.06em;padding:0 .08em .10em;paint-order:stroke fill;background:linear-gradient(180deg,#fff,#777 20%,#fff 37%,#2c2c31 55%,#fff 72%,#777 87%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(220,54,255,.45));margin-bottom:20px}.enterBtn{position:relative;padding:12px 19px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.025);cursor:pointer;font:600 9px DM Mono,monospace;letter-spacing:.14em;text-transform:uppercase;box-shadow:0 0 28px rgba(214,49,255,.18)}.enterBtn:hover{border-color:#ef9aff;box-shadow:0 0 36px rgba(214,49,255,.4)}
 
 @media(max-width:520px){.shell{width:min(100% - 18px,560px);padding-top:34px}.avatarWrap{width:94px;height:94px}.avatarRing{inset:-4px}#avatar{width:88px;height:88px}#avatarDecoration{inset:-14px;width:122px;height:122px}.chromeName{font-size:clamp(42px,15vw,60px)}.bio{font-size:12.5px}.links{margin-top:25px}.link{border-radius:19px}.linkInner{border-radius:18px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
@@ -122,7 +122,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}img{displ
   <div class="footer">city.exe <span class="sep">•</span> <button id="copyId" type="button">copy id</button></div>
 </main>
 
-<audio id="profileSong" src="glokies.mp3" preload="metadata"></audio>
+<audio id="profileSong" preload="auto"><source src="./glokies.mp3" type="audio/mpeg"></audio>
 
 <script>
 const USER_ID='1215522544564703323';
@@ -222,19 +222,32 @@ function syncPlayer(){
   state.textContent=playing?'now playing':'paused';
 }
 async function tryPlay(){
-  try{await song.play();syncPlayer();return true}
-  catch(err){console.warn('Audio play blocked/unavailable:',err);state.textContent='tap play';syncPlayer();return false}
+  try{
+    if(song.networkState===HTMLMediaElement.NETWORK_EMPTY) song.load();
+    await song.play();
+    syncPlayer();
+    return true;
+  }catch(err){
+    console.warn('Audio play blocked/unavailable:',err);
+    state.textContent=song.error?'glokies.mp3 unavailable':'tap play';
+    syncPlayer();
+    return false;
+  }
 }
 
+
 /* Enter always enters. Music is attempted separately and can never trap the page. */
-$('enterBtn').addEventListener('click',()=>{
+$('enterBtn').addEventListener('click',async()=>{
   gate.classList.add('off');
-  tryPlay();
+  song.load();
+  await tryPlay();
 });
 toggle.addEventListener('click',()=>song.paused?tryPlay():song.pause());
 song.addEventListener('play',syncPlayer);
 song.addEventListener('pause',syncPlayer);
 song.addEventListener('ended',syncPlayer);
+song.addEventListener('loadstart',()=>{state.textContent='loading'});
+song.addEventListener('canplay',()=>{if(song.paused)state.textContent='ready'});
 song.addEventListener('error',()=>{state.textContent='glokies.mp3 not found';toggle.textContent='▶'});
 song.addEventListener('timeupdate',()=>{fill.style.width=(song.duration?song.currentTime/song.duration*100:0)+'%'});
 $('musicProgress').addEventListener('click',e=>{if(song.duration){const r=e.currentTarget.getBoundingClientRect();song.currentTime=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*song.duration}});
